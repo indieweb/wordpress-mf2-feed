@@ -18,7 +18,7 @@ function uf2_feed_activation()
 }
 register_activation_hook(__FILE__, 'uf2_feed_activation');
 
-if (!function_exists("Mf2\parse")) {
+if (!class_exists("Mf2\Parser")) {
     require_once 'Mf2/Parser.php';
 }
 

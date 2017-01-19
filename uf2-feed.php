@@ -78,9 +78,9 @@ class Uf2Feed {
 		$parser = new Parser( $response, $current_url );
 
 		// also support uf1?
-		$parseUf1 = apply_filters( 'uf2_feed_support_uf1', false );
+		$parse_uf1 = apply_filters( 'uf2_feed_support_uf1', false );
 
-		$mf_array = $parser->parse( $parseUf1 );
+		$mf_array = $parser->parse( $parse_uf1 );
 
 		// filter output
 		$json = apply_filters( 'uf2_feed_array', $mf_array );

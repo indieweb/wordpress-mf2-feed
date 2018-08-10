@@ -29,6 +29,7 @@ class Mf2Feed {
 		add_action( 'do_feed_jf2', array( 'Mf2Feed', 'do_feed_jf2' ), 10, 1 );
 		add_feed( 'jf2', array( 'Mf2Feed', 'do_feed_jf2' ) );
 
+		add_action( 'wp_head', array( 'Mf2Feed', 'add_html_header' ), 5 );
 		add_filter( 'query_vars', array( 'Mf2Feed', 'query_vars' ) );
 		add_filter( 'feed_content_type', array( 'Mf2Feed', 'feed_content_type' ), 10, 2 );
 	}
@@ -163,5 +164,17 @@ class Mf2Feed {
 		global $wp_rewrite;
 
 		$wp_rewrite->flush_rules();
+	}
+
+	/**
+	 * Echos autodiscovery links
+	 */
+	public static function add_html_header() {
+		if ( is_singular() ) {
+		?>
+<link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'mf2' ) ); ?>" href="<?php echo esc_url( get_post_comments_feed_link( null, 'mf2' ) ); ?>" />
+<link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2' ) ); ?>" href="<?php echo esc_url( get_post_comments_feed_link( null, 'jf2' ) ); ?>" />
+		<?php
+		}
 	}
 }

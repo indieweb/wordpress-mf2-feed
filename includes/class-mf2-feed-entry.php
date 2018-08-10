@@ -13,13 +13,13 @@ class Mf2_Feed_Entry {
 	public $author = array();
 	public $published;
 	public $updated;
-	public $content;
+	public $content = array();
 	public $summary;
 	public $category = array();
 	public $featured;
 	public $comment = array();
 
-	public function __construct( $post ) {
+	public function __construct( $post, $with_comments = false ) {
 		$post = get_post( $post );
 		if ( ! $post ) {
 			return false;
@@ -54,6 +54,25 @@ class Mf2_Feed_Entry {
 		$this->author['name']  = get_the_author_meta( 'display_name', $post->post_author );
 		$this->author['url']   = get_the_author_meta( 'user_url', $post->post_author ) ? get_the_author_meta( 'user_url', $post->post_author ) : get_author_posts_url( $post->post_author );
 		$this->author['photo'] = get_avatar_url( $post->post_author );
+
+		// add comments
+		if ( $with_comments ) {
+			foreach ( get_comments( array( 'post_id' => $post->ID ) ) as $post_comment ) {
+				$comment                     = array();
+				$comment['type']             = 'cite';
+				$comment['content']['html']  = $post_comment->comment_content;
+				$comment['content']['value'] = wp_strip_all_tags( $post_comment->comment_content );
+				$comment['published']        = mysql2date( DATE_W3C, $post_comment->comment_date_gmt );
+				$comment['author']['type']   = 'card';
+				$comment['author']['name']   = $post_comment->comment_author;
+
+				if ( $post_comment->comment_author_url ) {
+					$comment['author']['url'] = $post_comment->comment_author_url;
+				}
+
+				$this->comment[] = $comment;
+			}
+		}
 	}
 
 	/**
@@ -92,17 +111,9 @@ class Mf2_Feed_Entry {
 		return $content;
 	}
 
-	/**
-	 * Retrieve value
-	 *
-	 * @param  string $key The key to retrieve.
-	 * @param  boolean $single Whether to return a a single value or array if there is only one value.
-	 * @return boolean|string|array The result or false if does not exist.
-	 */
 	public function to_mf2() {
-		$this->author = $this->jf2_to_mf2( $this->author );
-		$entry        = get_object_vars( $this );
-		$entry        = $this->jf2_to_mf2( $entry );
+		$entry = get_object_vars( $this );
+		$entry = $this->jf2_to_mf2( $entry );
 
 		return array_filter( $entry );
 	}
@@ -128,9 +139,19 @@ class Mf2_Feed_Entry {
 			if ( empty( $value ) ) {
 				continue;
 			}
-			if ( ! wp_is_numeric_array( $value ) ) {
+			if ( ! wp_is_numeric_array( $value ) && is_array( $value ) && array_key_exists( 'type', $value ) ) {
+				$value = $this->jf2_to_mf2( $value );
+			} elseif ( wp_is_numeric_array( $value ) && is_array( $value[0] ) && array_key_exists( 'type', $value[0] ) ) {
+				foreach ( $value as $item ) {
+					$items[] = $this->jf2_to_mf2( $item );
+				}
+				$value = $items;
+			} elseif ( ! wp_is_numeric_array( $value ) ) {
 				$value = array( $value );
+			} else {
+				continue;
 			}
+
 			$return['properties'][ $key ] = $value;
 		}
 

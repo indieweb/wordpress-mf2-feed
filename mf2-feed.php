@@ -49,8 +49,11 @@ class Mf2Feed {
 
 		$post = $post->to_mf2();
 
+		$items            = array();
+		$items['items'][] = $post;
+
 		// filter output
-		$json = apply_filters( 'mf2_feed_array', $post );
+		$json = apply_filters( 'mf2_feed_array', $items );
 
 		header( 'Content-Type: ' . feed_content_type( 'mf2' ) . '; charset=' . get_option( 'blog_charset' ), true );
 

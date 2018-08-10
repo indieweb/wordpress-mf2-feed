@@ -44,18 +44,37 @@ class Mf2Feed {
 	 * @param boolean $for_comments true if it is a comment-feed
 	 */
 	public static function do_feed_mf2( $for_comments ) {
-		if ( ! $for_comments ) {
-			return;
-		}
-
 		require_once dirname( __FILE__ ) . '/includes/class-mf2-feed-entry.php';
 
-		$post = new Mf2_Feed_Entry( get_the_ID(), $for_comments );
+		if ( $for_comments ) {
+			$post = new Mf2_Feed_Entry( get_the_ID() );
 
-		$post = $post->to_mf2();
+			$post = $post->to_mf2();
 
-		$items            = array();
-		$items['items'][] = $post;
+			$items               = array();
+			$items['children'][] = $post;
+		} else {
+			$items = array(
+				"items" => array(
+					array(
+						'type' => array( 'h-feed' ),
+						'properties' => array(
+							'name' => array( get_bloginfo( 'name' ) ),
+							'summary' => array( get_bloginfo( 'description' ) ),
+							'url' => array( site_url( '/' ) )
+						)
+					)
+				)
+			);
+
+			while ( have_posts() ) {
+				the_post();
+
+				$post = new Mf2_Feed_Entry( get_the_ID() );
+
+				$items['items'][0]['children'][] = $post->to_mf2();
+			}
+		}
 
 		// filter output
 		$json = apply_filters( 'mf2_feed_array', $items );
@@ -91,18 +110,24 @@ class Mf2Feed {
 	 * @param boolean $for_comments true if it is a comment-feed
 	 */
 	public static function do_feed_jf2( $for_comments ) {
-		if ( ! $for_comments ) {
-			return;
-		}
-
 		require_once dirname( __FILE__ ) . '/includes/class-mf2-feed-entry.php';
 
-		$post = new Mf2_Feed_Entry( get_the_ID(), $for_comments );
+		if ( $for_comments ) {
+			$post = new Mf2_Feed_Entry( get_the_ID(), $for_comments );
+			$items = $post->to_jf2();
+		} else {
+			$items = array( 'type' => 'feed' );
 
-		$post = $post->to_jf2();
+			while ( have_posts() ) {
+				the_post();
+
+				$post                = new Mf2_Feed_Entry( get_the_ID() );
+				$items['children'][] = $post->to_jf2();
+			}
+		}
 
 		// filter output
-		$json = apply_filters( 'jf2_feed_array', $post );
+		$json = apply_filters( 'jf2_feed_array', $items );
 
 		header( 'Content-Type: ' . feed_content_type( 'jf2' ) . '; charset=' . get_option( 'blog_charset' ), true );
 
@@ -138,7 +163,7 @@ class Mf2Feed {
 	 */
 	public static function feed_content_type( $content_type, $type ) {
 		if ( 'mf2' === $type || 'mf2' === $type ) {
-			return apply_filters( 'mf2_feed_content_type', 'application/mf2+json' );
+			return apply_filters( 'mf2_feed_content_type', 'application/json' );
 		}
 
 		if ( 'jf2' === $type || 'jf2' === $type ) {
@@ -178,6 +203,11 @@ class Mf2Feed {
 		?>
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'mf2' ) ); ?>" href="<?php echo esc_url( get_post_comments_feed_link( null, 'mf2' ) ); ?>" />
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2' ) ); ?>" href="<?php echo esc_url( get_post_comments_feed_link( null, 'jf2' ) ); ?>" />
+		<?php
+	} elseif ( is_home() ) {
+		?>
+<link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'mf2' ) ); ?>" href="<?php echo esc_url( get_feed_link( 'mf2' ) ); ?>" />
+<link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2' ) ); ?>" href="<?php echo esc_url( get_feed_link( 'jf2' ) ); ?>" />
 		<?php
 		}
 	}

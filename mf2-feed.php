@@ -1,12 +1,16 @@
 <?php
-/**
- * Plugin Name: UF2 Feed
- * Plugin URI: http://github.com/indieweb/wordpress-mf2-feed/
- * Description: Adds a Microformats2 JSON feed for every plugin
- * Version: 1.0.0
- * Author: Matthias Pfefferle
- * Author URI: https://notiz.blog/
- */
+ /**
+  * Plugin Name: MF2 Feed
+  * Plugin URI: http://github.com/indieweb/wordpress-mf2-feed/
+  * Description: Adds a Microformats2 JSON feed for every entry
+  * Version: 1.0.0
+  * Author: Matthias Pfefferle
+  * Author URI: https://notiz.blog/
+  * License: MIT
+  * License URI: http://opensource.org/licenses/MIT
+  * Text Domain: mf2-feed
+  * Domain Path: /languages
+  */
 
 add_action( 'init', array( 'Mf2Feed', 'init' ) );
 register_activation_hook( __FILE__, array( 'Mf2Feed', 'flush_rewrite_rules' ) );

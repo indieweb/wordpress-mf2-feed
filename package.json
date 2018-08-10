@@ -1,0 +1,28 @@
+{
+  "name": "wordpress-mf2-feed",
+  "version": "1.0.0",
+  "description": "Adds a Microformats2 JSON feed for every entry",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/indieweb/wordpress-mf2-feed.git"
+  },
+  "keywords": [
+    "microformats",
+    "mf2",
+    "jf2",
+    "rel-alternate",
+    "indieweb"
+  ],
+  "author": "Matthias Pfefferle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/indieweb/wordpress-mf2-feed/issues"
+  },
+  "homepage": "https://github.com/indieweb/wordpress-mf2-feed#readme",
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-checktextdomain": "^1.0.1",
+    "grunt-wp-i18n": "^1.0.2",
+    "grunt-wp-readme-to-markdown": "^2.0.1"
+  }
+}

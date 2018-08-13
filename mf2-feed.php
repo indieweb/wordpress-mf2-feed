@@ -163,7 +163,7 @@ class Mf2Feed {
 	 */
 	public static function feed_content_type( $content_type, $type ) {
 		if ( 'mf2' === $type || 'mf2' === $type ) {
-			return apply_filters( 'mf2_feed_content_type', 'application/json' );
+			return apply_filters( 'mf2_feed_content_type', 'application/mf2+json' );
 		}
 
 		if ( 'jf2' === $type || 'jf2' === $type ) {

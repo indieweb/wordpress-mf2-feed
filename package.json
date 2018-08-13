@@ -1,6 +1,5 @@
 {
   "name": "wordpress-mf2-feed",
-  "version": "1.0.0",
   "description": "Adds a Microformats2 JSON feed for every entry",
   "repository": {
     "type": "git",

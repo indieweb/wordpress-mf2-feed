@@ -27,8 +27,8 @@ p3k Example:
 WordPress Example:
 
 * Original: <http://notizblog.org/2013/06/18/the-rise-of-the-indieweb/>
-* Microformats2 JSON<http://notizblog.org/2013/06/18/the-rise-of-the-indieweb/feed/mf2>
-* JF2 <http://notizblog.org/2013/06/18/the-rise-of-the-indieweb/feed/jf2>
+* Microformats2 JSON: <http://notizblog.org/2013/06/18/the-rise-of-the-indieweb/feed/mf2>
+* JF2: <http://notizblog.org/2013/06/18/the-rise-of-the-indieweb/feed/jf2>
 
 ## FAQ ##
 

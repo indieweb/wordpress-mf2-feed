@@ -80,7 +80,7 @@ Project actively developed on Github at [indieweb/wordpress-mf2-feed](https://gi
 
 ### 2.0.0 ###
 
-* Complete re-written to match the latest ideas of rel-alternate: https://github.com/indieweb/wordpress-uf2/issues/38
+* Complete re-write to match the latest ideas of rel-alternate: https://github.com/indieweb/wordpress-uf2/issues/38
 
 ### 1.0.0 ###
 

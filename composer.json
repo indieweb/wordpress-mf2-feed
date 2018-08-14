@@ -15,5 +15,23 @@
   },
   "extra": {
     "installer-name": "mf2-feed"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.7.*",
+    "squizlabs/php_codesniffer": "^2.2 || ^3.0.2",
+    "phpcompatibility/php-compatibility": "*",
+    "wp-coding-standards/wpcs": "*",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
+    "phpcompatibility/phpcompatibility-wp": "^1.0"
+  },
+  "scripts": {
+    "install-codestandards": [
+      "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
+    ],
+    "test": [
+      "composer update",
+      "bin/install-wp-tests.sh wordpress wordpress wordpress",
+      "vendor/bin/phpunit"
+    ]
   }
 }

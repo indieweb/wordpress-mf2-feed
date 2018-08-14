@@ -4,7 +4,7 @@ Donate link: https://notiz.blog/donate/
 Tags: microformats, mf2, jf2, rel-alternate, indieweb
 Requires at least: 4.7
 Tested up to: 4.9.8
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 Requires PHP: 5.3
 License: MIT
 License URI: http://opensource.org/licenses/MIT
@@ -21,14 +21,15 @@ The plugin is inspired by the URL design of [p3k](https://github.com/aaronpk/p3k
 
 p3k Example:
 
-* <http://aaronparecki.com/articles/2015/01/22/1/why-not-json>
-* <http://aaronparecki.com/articles/2015/01/22/1/why-not-json.json>
+* Original: <https://aaronparecki.com/2018/07/30/18/xray-updates>
+* Microformats2 JSON: <https://aaronparecki.com/2018/07/30/18/xray-updates.json>
+* JF2: <https://aaronparecki.com/2018/07/30/18/xray-updates.jf2>
 
 WordPress Example:
 
-* Original: <http://notizblog.org/2013/06/18/the-rise-of-the-indieweb/>
-* Microformats2 JSON: <http://notizblog.org/2013/06/18/the-rise-of-the-indieweb/feed/mf2>
-* JF2: <http://notizblog.org/2013/06/18/the-rise-of-the-indieweb/feed/jf2>
+* Original: <https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/>
+* Microformats2 JSON: <https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/feed/mf2>
+* JF2: <https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/feed/jf2>
 
 == FAQ ==
 
@@ -77,6 +78,11 @@ To install a WordPress Plugin manually:
 == Changelog ==
 
 Project actively developed on Github at [indieweb/wordpress-mf2-feed](https://github.com/indieweb/wordpress-mf2-feed). Please file support issues there.
+
+= 2.0.1 =
+
+* Fixed "flush rewrite rules"
+* Added filter to extend the mf2/jf2 data
 
 = 2.0.0 =
 

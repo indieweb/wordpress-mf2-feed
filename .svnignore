@@ -17,6 +17,7 @@ _site
 bin
 composer.json
 composer.lock
+package-lock.json
 docker-compose.yml
 gulpfile.js
 package.json

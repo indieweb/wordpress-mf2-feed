@@ -13,8 +13,10 @@
   */
 
 add_action( 'init', array( 'Mf2Feed', 'init' ) );
-register_activation_hook( __FILE__, array( 'Mf2Feed', 'flush_rewrite_rules' ) );
-register_deactivation_hook( __FILE__, array( 'Mf2Feed', 'flush_rewrite_rules' ) );
+
+// flush rewrite rules
+register_activation_hook( __FILE__, 'flush_rewrite_rules' );
+register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
 
 /**
  * Mf2Feed class
@@ -175,15 +177,6 @@ class Mf2Feed {
 		$vars[] = 'pretty';
 
 		return $vars;
-	}
-
-	/**
-	 * reset rewrite rules
-	 */
-	public static function flush_rewrite_rules() {
-		global $wp_rewrite;
-
-		$wp_rewrite->flush_rules();
 	}
 
 	/**

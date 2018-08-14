@@ -51,8 +51,8 @@ class Mf2Feed {
 
 			$post = $post->to_mf2();
 
-			$items               = array();
-			$items['children'][] = $post;
+			$items            = array();
+			$items['items'][] = $post;
 		} else {
 			$items = array(
 				"items" => array(

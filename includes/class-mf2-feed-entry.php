@@ -7,6 +7,7 @@
  * Based on the work of @dshankse: https://github.com/dshanske/indieweb-post-kinds/blob/master/includes/class-mf2-post.php
  */
 class Mf2_Feed_Entry {
+	public $_id;
 	public $type;
 	public $name;
 	public $url;
@@ -25,6 +26,7 @@ class Mf2_Feed_Entry {
 			return false;
 		}
 
+		$this->_id              = $post->ID;
 		$this->type             = 'entry';
 		$this->name             = $post->post_name;
 		$this->published        = mysql2date( DATE_W3C, $post->post_date );
@@ -112,14 +114,14 @@ class Mf2_Feed_Entry {
 	}
 
 	public function to_mf2() {
-		$entry = get_object_vars( $this );
-		$entry = $this->jf2_to_mf2( $entry );
+		$entry = apply_filters( 'jf2_entry_array', get_object_vars( $this ), $this->_id );
+		$entry = apply_filters( 'mf2_entry_array', $this->jf2_to_mf2( $entry ), $this->_id );
 
 		return array_filter( $entry );
 	}
 
 	public function to_jf2() {
-		$entry = get_object_vars( $this );
+		$entry = apply_filters( 'jf2_entry_array', get_object_vars( $this ), $this->_id );
 
 		return array_filter( $entry );
 	}

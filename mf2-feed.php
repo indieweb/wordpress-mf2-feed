@@ -81,25 +81,20 @@ class Mf2Feed {
 
 		header( 'Content-Type: ' . feed_content_type( 'mf2' ) . '; charset=' . get_option( 'blog_charset' ), true );
 
-		if ( version_compare( phpversion(), '5.3.0', '<' ) ) {
-			// json_encode() options added in PHP 5.3
-			$json_str = json_encode( $json );
-		} else {
-			$options = 0;
-			// JSON_PRETTY_PRINT added in PHP 5.4
-			if ( get_query_var( 'pretty' ) && version_compare( phpversion(), '5.4.0', '>=' ) ) {
-				$options |= JSON_PRETTY_PRINT;
-			}
-
-			/*
-			 * Options to be passed to json_encode()
-			 *
-			 * @param int $options The current options flags
-			 */
-			$options = apply_filters( 'mf2_feed_options', $options );
-
-			$json_str = json_encode( $json, $options );
+		$options = 0;
+		// JSON_PRETTY_PRINT added in PHP 5.4
+		if ( get_query_var( 'pretty' ) ) {
+			$options |= JSON_PRETTY_PRINT;
 		}
+
+		/*
+		 * Options to be passed to json_encode()
+		 *
+		 * @param int $options The current options flags
+		 */
+		$options = apply_filters( 'mf2_feed_options', $options );
+
+		$json_str = wp_json_encode( $json, $options );
 
 		echo $json_str;
 	}
@@ -131,25 +126,21 @@ class Mf2Feed {
 
 		header( 'Content-Type: ' . feed_content_type( 'jf2' ) . '; charset=' . get_option( 'blog_charset' ), true );
 
-		if ( version_compare( phpversion(), '5.3.0', '<' ) ) {
-			// json_encode() options added in PHP 5.3
-			$json_str = json_encode( $json );
-		} else {
-			$options = 0;
-			// JSON_PRETTY_PRINT added in PHP 5.4
-			if ( get_query_var( 'pretty' ) && version_compare( phpversion(), '5.4.0', '>=' ) ) {
-				$options |= JSON_PRETTY_PRINT;
-			}
+		$options = 0;
 
-			/*
-			 * Options to be passed to json_encode()
-			 *
-			 * @param int $options The current options flags
-			 */
-			$options = apply_filters( 'jf2_feed_options', $options );
-
-			$json_str = json_encode( $json, $options );
+		// JSON_PRETTY_PRINT added in PHP 5.4
+		if ( get_query_var( 'pretty' ) ) {
+			$options |= JSON_PRETTY_PRINT;
 		}
+
+		/*
+		 * Options to be passed to json_encode()
+		 *
+		 * @param int $options The current options flags
+		 */
+		$options = apply_filters( 'jf2_feed_options', $options );
+
+		$json_str = wp_json_encode( $json, $options );
 
 		echo $json_str;
 	}

@@ -14,9 +14,12 @@
 
 add_action( 'init', array( 'Mf2Feed', 'init' ) );
 
+
 // flush rewrite rules
-register_activation_hook( __FILE__, 'flush_rewrite_rules' );
+register_activation_hook( __FILE__, array( 'Mf2Feed', 'activate' ) );
 register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
+
+
 
 /**
  * Mf2Feed class
@@ -28,16 +31,26 @@ class Mf2Feed {
 	 * init function
 	 */
 	public static function init() {
+		self::setup_feeds();
 		// add 'json' as feed
 		add_action( 'do_feed_mf2', array( 'Mf2Feed', 'do_feed_mf2' ), 10, 1 );
-		add_feed( 'mf2', array( 'Mf2Feed', 'do_feed_mf2' ) );
 
 		add_action( 'do_feed_jf2', array( 'Mf2Feed', 'do_feed_jf2' ), 10, 1 );
-		add_feed( 'jf2', array( 'Mf2Feed', 'do_feed_jf2' ) );
 
 		add_action( 'wp_head', array( 'Mf2Feed', 'add_html_header' ), 5 );
 		add_filter( 'query_vars', array( 'Mf2Feed', 'query_vars' ) );
 		add_filter( 'feed_content_type', array( 'Mf2Feed', 'feed_content_type' ), 10, 2 );
+	}
+
+	public static function activate() {
+		self::setup_feeds();
+		flush_rewrite_rules();
+	}
+
+
+	public static function setup_feeds() {
+		add_feed( 'mf2', array( 'Mf2Feed', 'do_feed_mf2' ) );
+		add_feed( 'jf2', array( 'Mf2Feed', 'do_feed_jf2' ) );
 	}
 
 	/**

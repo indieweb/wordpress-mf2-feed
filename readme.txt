@@ -4,7 +4,7 @@ Donate link: https://notiz.blog/donate/
 Tags: microformats, mf2, jf2, rel-alternate, indieweb
 Requires at least: 4.7
 Tested up to: 4.9.8
-Stable tag: 2.0.1
+Stable tag: 2.1.0
 Requires PHP: 5.3
 License: MIT
 License URI: http://opensource.org/licenses/MIT
@@ -78,6 +78,11 @@ To install a WordPress Plugin manually:
 == Changelog ==
 
 Project actively developed on Github at [indieweb/wordpress-mf2-feed](https://github.com/indieweb/wordpress-mf2-feed). Please file support issues there.
+
+= 2.1.0 =
+
+* Add mf2 metas
+* Fixed "flush rewrite rules" again
 
 = 2.0.1 =
 

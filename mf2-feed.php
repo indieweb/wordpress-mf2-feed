@@ -3,7 +3,7 @@
   * Plugin Name: MF2 Feed
   * Plugin URI: http://github.com/indieweb/wordpress-mf2-feed/
   * Description: Adds a Microformats2 JSON feed for every entry
-  * Version: 2.0.1
+  * Version: 2.1.0
   * Author: Matthias Pfefferle
   * Author URI: https://notiz.blog/
   * License: MIT
@@ -14,12 +14,9 @@
 
 add_action( 'init', array( 'Mf2Feed', 'init' ) );
 
-
 // flush rewrite rules
 register_activation_hook( __FILE__, array( 'Mf2Feed', 'activate' ) );
 register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
-
-
 
 /**
  * Mf2Feed class
@@ -34,12 +31,13 @@ class Mf2Feed {
 		self::setup_feeds();
 		// add 'json' as feed
 		add_action( 'do_feed_mf2', array( 'Mf2Feed', 'do_feed_mf2' ), 10, 1 );
-
 		add_action( 'do_feed_jf2', array( 'Mf2Feed', 'do_feed_jf2' ), 10, 1 );
 
 		add_action( 'wp_head', array( 'Mf2Feed', 'add_html_header' ), 5 );
 		add_filter( 'query_vars', array( 'Mf2Feed', 'query_vars' ) );
 		add_filter( 'feed_content_type', array( 'Mf2Feed', 'feed_content_type' ), 10, 2 );
+
+		add_filter( 'jf2_entry_array', array( 'Mf2Feed', 'add_mf2_meta' ), 10, 2 );
 	}
 
 	public static function activate() {
@@ -207,5 +205,46 @@ class Mf2Feed {
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2' ) ); ?>" href="<?php echo esc_url( get_feed_link( 'jf2' ) ); ?>" />
 		<?php
 		}
+	}
+
+	/**
+	 * Adds an array with only the mf2 prefixed meta.
+	 */
+	public static function add_mf2_meta( $data, $id ) {
+		$meta = get_post_meta( $id );
+
+		foreach ( $meta as $key => $value ) {
+			if ( ! self::str_prefix( $key, 'mf2_' ) ) {
+				unset( $meta[ $key ] );
+			} else {
+				unset( $meta[ $key ] );
+				$key = str_replace( 'mf2_', '', $key );
+				// Do not save microput prefixed instructions
+				if ( self::str_prefix( $key, 'mp-' ) ) {
+					continue;
+				}
+				$value = array_map( 'maybe_unserialize', $value );
+				if ( 1 === count( $value ) ) {
+					$value = array_shift( $value );
+				}
+				$meta[ $key ] = $value;
+			}
+		}
+
+		$meta = array_filter( $meta );
+		$data = array_merge( $meta, $data );
+
+		return $data;
+	}
+
+	/**
+	 * Is prefix in string.
+	 *
+	 * @param  string $source The source string.
+	 * @param  string $prefix The prefix you wish to check for in source.
+	 * @return boolean The result.
+	 */
+	public static function str_prefix( $source, $prefix ) {
+		return strncmp( $source, $prefix, strlen( $prefix ) ) === 0;
 	}
 }

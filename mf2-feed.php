@@ -232,6 +232,11 @@ class Mf2Feed {
 		}
 
 		$meta = array_filter( $meta );
+
+		if ( ! $meta ) {
+			return $data;
+		}
+
 		$data = array_merge( $meta, $data );
 
 		return $data;

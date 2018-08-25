@@ -157,6 +157,6 @@ class Mf2_Feed_Entry {
 			$return['properties'][ $key ] = $value;
 		}
 
-		return array_filter( $return );
+		return array_filter( array( $return ) );
 	}
 }

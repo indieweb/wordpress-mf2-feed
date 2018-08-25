@@ -65,7 +65,7 @@ class Mf2Feed {
 			$post = $post->to_mf2();
 
 			$items            = array();
-			$items['items'][] = $post;
+			$items['items']   = $post;
 		} else {
 			$items = array(
 				"items" => array(
@@ -85,7 +85,7 @@ class Mf2Feed {
 
 				$post = new Mf2_Feed_Entry( get_the_ID() );
 
-				$items['items'][0]['children'][] = $post->to_mf2();
+				$items['items'][0]['children'][] = current( $post->to_mf2() );
 			}
 		}
 

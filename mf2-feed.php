@@ -36,8 +36,6 @@ class Mf2Feed {
 		add_action( 'wp_head', array( 'Mf2Feed', 'add_html_header' ), 5 );
 		add_filter( 'query_vars', array( 'Mf2Feed', 'query_vars' ) );
 		add_filter( 'feed_content_type', array( 'Mf2Feed', 'feed_content_type' ), 10, 2 );
-
-		add_filter( 'jf2_entry_array', array( 'Mf2Feed', 'add_mf2_meta' ), 10, 2 );
 	}
 
 	public static function activate() {
@@ -205,41 +203,6 @@ class Mf2Feed {
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2' ) ); ?>" href="<?php echo esc_url( get_feed_link( 'jf2' ) ); ?>" />
 		<?php
 		}
-	}
-
-	/**
-	 * Adds an array with only the mf2 prefixed meta.
-	 */
-	public static function add_mf2_meta( $data, $id ) {
-		$meta = get_post_meta( $id );
-
-		foreach ( $meta as $key => $value ) {
-			if ( ! self::str_prefix( $key, 'mf2_' ) ) {
-				unset( $meta[ $key ] );
-			} else {
-				unset( $meta[ $key ] );
-				$key = str_replace( 'mf2_', '', $key );
-				// Do not save microput prefixed instructions
-				if ( self::str_prefix( $key, 'mp-' ) ) {
-					continue;
-				}
-				$value = array_map( 'maybe_unserialize', $value );
-				if ( 1 === count( $value ) ) {
-					$value = array_shift( $value );
-				}
-				$meta[ $key ] = $value;
-			}
-		}
-
-		$meta = array_filter( $meta );
-
-		if ( ! $meta ) {
-			return $data;
-		}
-
-		$data = array_merge( $meta, $data );
-
-		return $data;
 	}
 
 	/**

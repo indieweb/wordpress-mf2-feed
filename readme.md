@@ -81,7 +81,7 @@ Project actively developed on Github at [indieweb/wordpress-mf2-feed](https://gi
 
 ### 2.1.0 ###
 
-* Add mf2 metas
+* Fixed JSON output
 * Fixed "flush rewrite rules" again
 
 ### 2.0.1 ###

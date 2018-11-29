@@ -204,15 +204,4 @@ class Mf2Feed {
 		<?php
 		}
 	}
-
-	/**
-	 * Is prefix in string.
-	 *
-	 * @param  string $source The source string.
-	 * @param  string $prefix The prefix you wish to check for in source.
-	 * @return boolean The result.
-	 */
-	public static function str_prefix( $source, $prefix ) {
-		return strncmp( $source, $prefix, strlen( $prefix ) ) === 0;
-	}
 }

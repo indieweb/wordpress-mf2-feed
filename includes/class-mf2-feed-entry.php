@@ -54,6 +54,7 @@ class Mf2_Feed_Entry {
 
 		$this->author['type']  = 'card';
 		$this->author['name']  = get_the_author_meta( 'display_name', $post->post_author );
+		$this->author['value'] = get_the_author_meta( 'display_name', $post->post_author );
 		$this->author['url']   = get_the_author_meta( 'user_url', $post->post_author ) ? get_the_author_meta( 'user_url', $post->post_author ) : get_author_posts_url( $post->post_author );
 		$this->author['photo'] = get_avatar_url( $post->post_author );
 
@@ -67,6 +68,7 @@ class Mf2_Feed_Entry {
 				$comment['published']        = mysql2date( DATE_W3C, $post_comment->comment_date_gmt );
 				$comment['author']['type']   = 'card';
 				$comment['author']['name']   = $post_comment->comment_author;
+				$comment['author']['value']  = $post_comment->comment_author;
 
 				if ( $post_comment->comment_author_url ) {
 					$comment['author']['url'] = $post_comment->comment_author_url;
@@ -135,7 +137,12 @@ class Mf2_Feed_Entry {
 		$return['type']       = array( 'h-' . $entry['type'] );
 		$return['properties'] = array();
 
+		if ( $entry['value'] ) {
+			$return['type'] = $entry['value'];
+		}
+
 		unset( $entry['type'] );
+		unset( $entry['value'] );
 
 		foreach ( $entry as $key => $value ) {
 			if ( empty( $value ) ) {
@@ -157,6 +164,6 @@ class Mf2_Feed_Entry {
 			$return['properties'][ $key ] = $value;
 		}
 
-		return array_filter( $return );
+		return array_filter( array( $return ) );
 	}
 }

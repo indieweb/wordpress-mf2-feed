@@ -3,7 +3,7 @@
   * Plugin Name: MF2 Feed
   * Plugin URI: http://github.com/indieweb/wordpress-mf2-feed/
   * Description: Adds a Microformats2 JSON feed for every entry
-  * Version: 2.0.1
+  * Version: 2.1.0
   * Author: Matthias Pfefferle
   * Author URI: https://notiz.blog/
   * License: MIT
@@ -14,12 +14,9 @@
 
 add_action( 'init', array( 'Mf2Feed', 'init' ) );
 
-
 // flush rewrite rules
 register_activation_hook( __FILE__, array( 'Mf2Feed', 'activate' ) );
 register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
-
-
 
 /**
  * Mf2Feed class
@@ -34,7 +31,6 @@ class Mf2Feed {
 		self::setup_feeds();
 		// add 'json' as feed
 		add_action( 'do_feed_mf2', array( 'Mf2Feed', 'do_feed_mf2' ), 10, 1 );
-
 		add_action( 'do_feed_jf2', array( 'Mf2Feed', 'do_feed_jf2' ), 10, 1 );
 
 		add_action( 'wp_head', array( 'Mf2Feed', 'add_html_header' ), 5 );
@@ -67,7 +63,7 @@ class Mf2Feed {
 			$post = $post->to_mf2();
 
 			$items            = array();
-			$items['items'][] = $post;
+			$items['items']   = $post;
 		} else {
 			$items = array(
 				"items" => array(
@@ -87,7 +83,7 @@ class Mf2Feed {
 
 				$post = new Mf2_Feed_Entry( get_the_ID() );
 
-				$items['items'][0]['children'][] = $post->to_mf2();
+				$items['items'][0]['children'][] = current( $post->to_mf2() );
 			}
 		}
 

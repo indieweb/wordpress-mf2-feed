@@ -137,7 +137,7 @@ class Mf2_Feed_Entry {
 		$return['type']       = array( 'h-' . $entry['type'] );
 		$return['properties'] = array();
 
-		if ( $entry['value'] ) {
+		if ( ! empty( $entry['value'] ) ) {
 			$return['type'] = $entry['value'];
 		}
 

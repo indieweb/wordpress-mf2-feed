@@ -21,11 +21,6 @@ class Mf2_Feed_Entry {
 	public $comment = array();
 
 	public function __construct( $post, $with_comments = false ) {
-		$post = get_post( $post );
-		if ( ! $post ) {
-			return false;
-		}
-
 		$this->_id              = $post->ID;
 		$this->type             = 'entry';
 		$this->name             = $post->post_name;

@@ -57,8 +57,13 @@ class Mf2Feed {
 	public static function do_feed_mf2( $for_comments ) {
 		require_once dirname( __FILE__ ) . '/includes/class-mf2-feed-entry.php';
 
+		$thepost = get_post( get_the_ID() );
+		if ( ! $thepost ) {
+			return false;
+		}
+
 		if ( $for_comments ) {
-			$post = new Mf2_Feed_Entry( get_the_ID() );
+			$post = new Mf2_Feed_Entry( $thepost );
 
 			$post = $post->to_mf2();
 
@@ -118,8 +123,13 @@ class Mf2Feed {
 	public static function do_feed_jf2( $for_comments ) {
 		require_once dirname( __FILE__ ) . '/includes/class-mf2-feed-entry.php';
 
+		$thepost = get_post( get_the_ID() );
+		if ( ! $thepost ) {
+			return false;
+		}
+
 		if ( $for_comments ) {
-			$post = new Mf2_Feed_Entry( get_the_ID(), $for_comments );
+			$post = new Mf2_Feed_Entry( $thepost, $for_comments );
 			$items = $post->to_jf2();
 		} else {
 			$items = array( 'type' => 'feed' );

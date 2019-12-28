@@ -85,10 +85,10 @@ class Mf2Feed {
 
 			while ( have_posts() ) {
 				the_post();
+				global $post;
+				$thepost = new Mf2_Feed_Entry( $post );
 
-				$post = new Mf2_Feed_Entry( get_the_ID() );
-
-				$items['items'][0]['children'][] = current( $post->to_mf2() );
+				$items['items'][0]['children'][] = current( $thepost->to_mf2() );
 			}
 		}
 

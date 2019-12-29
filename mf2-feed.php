@@ -3,7 +3,7 @@
  * Plugin Name: MF2 Feed
  * Plugin URI: http://github.com/indieweb/wordpress-mf2-feed/
  * Description: Adds a Microformats2 JSON feed for every entry
- * Version: 2.1.0
+ * Version: 3.0.0
  * Author: Matthias Pfefferle
  * Author URI: https://notiz.blog/
  * License: MIT
@@ -124,7 +124,7 @@ class Mf2Feed {
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'mf2' ) ); ?>" href="<?php echo esc_url( get_post_comments_feed_link( null, 'mf2' ) ); ?>" />
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2' ) ); ?>" href="<?php echo esc_url( get_post_comments_feed_link( null, 'jf2' ) ); ?>" />
 			<?php
-		} elseif ( ) {
+		} else {
 			?>
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'mf2' ) ); ?>" href="<?php echo esc_url( get_feed_link( 'mf2' ) ); ?>" />
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2feed' ) ); ?>" href="<?php echo esc_url( get_feed_link( 'jf2' ) ); ?>" />

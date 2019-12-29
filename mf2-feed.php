@@ -34,7 +34,6 @@ class Mf2Feed {
 		add_action( 'do_feed_jf2', array( 'Mf2Feed', 'do_feed_jf2' ), 10, 1 );
 
 		add_action( 'wp_head', array( 'Mf2Feed', 'add_html_header' ), 5 );
-		add_filter( 'query_vars', array( 'Mf2Feed', 'query_vars' ) );
 		add_filter( 'feed_content_type', array( 'Mf2Feed', 'feed_content_type' ), 10, 2 );
 	}
 
@@ -55,59 +54,29 @@ class Mf2Feed {
 	 * @param boolean $for_comments true if it is a comment-feed
 	 */
 	public static function do_feed_mf2( $for_comments ) {
-		require_once dirname( __FILE__ ) . '/includes/class-mf2-feed-entry.php';
-
 		if ( $for_comments ) {
-			$post = new Mf2_Feed_Entry( get_the_ID() );
-
-			$post = $post->to_mf2();
-
-			$items          = array();
-			$items['items'] = $post;
+			load_template( dirname( __FILE__ ) . '/includes/feed-mf2-comments.php' );
 		} else {
-			$items = array(
-				'items' => array(
-					array(
-						'type'       => array( 'h-feed' ),
-						'properties' => array(
-							'name'    => array( get_bloginfo( 'name' ) ),
-							'summary' => array( get_bloginfo( 'description' ) ),
-							'url'     => array( site_url( '/' ) ),
-						),
-					),
-				),
-			);
-
-			while ( have_posts() ) {
-				the_post();
-
-				$post = new Mf2_Feed_Entry( get_the_ID() );
-
-				$items['items'][0]['children'][] = current( $post->to_mf2() );
-			}
+			load_template( dirname( __FILE__ ) . '/includes/feed-mf2.php' );
 		}
+	}
 
-		// filter output
-		$json = apply_filters( 'mf2_feed_array', $items );
-
-		header( 'Content-Type: ' . feed_content_type( 'mf2' ) . '; charset=' . get_option( 'blog_charset' ), true );
-
-		$options = 0;
-		// JSON_PRETTY_PRINT added in PHP 5.4
-		if ( get_query_var( 'pretty' ) ) {
-			$options |= JSON_PRETTY_PRINT;
-		}
-
+	/**
+	 * Prepares JSON for output
+	 *
+	 * @param array $json Associative array
+	 * @return string $json_str JSON encoded string
+	 */
+	public static function encode_json( $json, $feed = 'mf2' ) {
+		$options |= JSON_PRETTY_PRINT;
 		/*
 		 * Options to be passed to json_encode()
 		 *
 		 * @param int $options The current options flags
 		 */
-		$options = apply_filters( 'mf2_feed_options', $options );
+		$options = apply_filters( '{$feed}_feed_options', $options ); // phpcs:ignore
 
-		$json_str = wp_json_encode( $json, $options );
-
-		echo $json_str;
+		return wp_json_encode( $json, $options );
 	}
 
 	/**
@@ -116,44 +85,12 @@ class Mf2Feed {
 	 * @param boolean $for_comments true if it is a comment-feed
 	 */
 	public static function do_feed_jf2( $for_comments ) {
-		require_once dirname( __FILE__ ) . '/includes/class-mf2-feed-entry.php';
-
 		if ( $for_comments ) {
-			$post  = new Mf2_Feed_Entry( get_the_ID(), $for_comments );
-			$items = $post->to_jf2();
+			load_template( dirname( __FILE__ ) . '/includes/feed-jf2-comments.php' );
 		} else {
-			$items = array( 'type' => 'feed' );
-
-			while ( have_posts() ) {
-				the_post();
-
-				$post                = new Mf2_Feed_Entry( get_the_ID() );
-				$items['children'][] = $post->to_jf2();
-			}
+			load_template( dirname( __FILE__ ) . '/includes/feed-jf2.php' );
 		}
-
-		// filter output
-		$json = apply_filters( 'jf2_feed_array', $items );
-
-		header( 'Content-Type: ' . feed_content_type( 'jf2' ) . '; charset=' . get_option( 'blog_charset' ), true );
-
-		$options = 0;
-
-		// JSON_PRETTY_PRINT added in PHP 5.4
-		if ( get_query_var( 'pretty' ) ) {
-			$options |= JSON_PRETTY_PRINT;
-		}
-
-		/*
-		 * Options to be passed to json_encode()
-		 *
-		 * @param int $options The current options flags
-		 */
-		$options = apply_filters( 'jf2_feed_options', $options );
-
-		$json_str = wp_json_encode( $json, $options );
-
-		echo $json_str;
+		require_once dirname( __FILE__ ) . '/includes/class-mf2-feed-entry.php';
 	}
 
 	/**
@@ -171,19 +108,11 @@ class Mf2Feed {
 		if ( 'jf2' === $type || 'jf2' === $type ) {
 			return apply_filters( 'jf2_feed_content_type', 'application/jf2+json' );
 		}
+		if ( 'jf2feed' === $type || 'jf2feed' === $type ) {
+			return apply_filters( 'jf2_feed_content_type', 'application/jf2feed+json' );
+		}
 
 		return $content_type;
-	}
-
-	/**
-	 * add 'pretty' as a valid query variables.
-	 *
-	 * @param array $vars
-	 * @return array
-	 */
-	public static function query_vars( $vars ) {
-		$vars[] = 'pretty';
-		return $vars;
 	}
 
 	/**

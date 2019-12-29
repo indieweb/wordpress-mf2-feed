@@ -88,11 +88,11 @@ class Mf2_Feed_Entry {
 	 * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
 	 */
 	private function get_content_by_id( $post_id = 0, $more_link_text = null, $stripteaser = false ) {
-		global $post;
-		$post = get_post( $post_id );
-		setup_postdata( $post, $more_link_text, $stripteaser );
+		if ( ! $post_id ) {
+			$post_id = get_the_ID();
+		}
+		$post    = get_post( $post_id );
 		$content = get_the_content();
-		wp_reset_postdata( $post );
 
 		return $content;
 	}
@@ -106,11 +106,11 @@ class Mf2_Feed_Entry {
 	 * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
 	 */
 	private function get_excerpt_by_id( $post_id = 0, $more_link_text = null, $stripteaser = false ) {
-		global $post;
-		$post = get_post( $post_id );
-		setup_postdata( $post, $more_link_text, $stripteaser );
+		if ( ! $post_id ) {
+			$post_id = get_the_ID();
+		}
+		$post    = get_post( $post_id );
 		$content = get_the_excerpt();
-		wp_reset_postdata( $post );
 
 		return $content;
 	}

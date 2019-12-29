@@ -176,15 +176,13 @@ class Mf2Feed {
 	}
 
 	/**
-	 * add 'feed' and 'pretty' as a valid query variables.
+	 * add 'pretty' as a valid query variables.
 	 *
 	 * @param array $vars
 	 * @return array
 	 */
 	public static function query_vars( $vars ) {
-		$vars[] = 'feed';
 		$vars[] = 'pretty';
-
 		return $vars;
 	}
 

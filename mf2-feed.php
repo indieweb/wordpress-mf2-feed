@@ -1,16 +1,16 @@
 <?php
- /**
-  * Plugin Name: MF2 Feed
-  * Plugin URI: http://github.com/indieweb/wordpress-mf2-feed/
-  * Description: Adds a Microformats2 JSON feed for every entry
-  * Version: 2.1.0
-  * Author: Matthias Pfefferle
-  * Author URI: https://notiz.blog/
-  * License: MIT
-  * License URI: http://opensource.org/licenses/MIT
-  * Text Domain: mf2-feed
-  * Domain Path: /languages
-  */
+/**
+ * Plugin Name: MF2 Feed
+ * Plugin URI: http://github.com/indieweb/wordpress-mf2-feed/
+ * Description: Adds a Microformats2 JSON feed for every entry
+ * Version: 2.1.0
+ * Author: Matthias Pfefferle
+ * Author URI: https://notiz.blog/
+ * License: MIT
+ * License URI: http://opensource.org/licenses/MIT
+ * Text Domain: mf2-feed
+ * Domain Path: /languages
+ */
 
 add_action( 'init', array( 'Mf2Feed', 'init' ) );
 
@@ -62,20 +62,20 @@ class Mf2Feed {
 
 			$post = $post->to_mf2();
 
-			$items            = array();
-			$items['items']   = $post;
+			$items          = array();
+			$items['items'] = $post;
 		} else {
 			$items = array(
-				"items" => array(
+				'items' => array(
 					array(
-						'type' => array( 'h-feed' ),
+						'type'       => array( 'h-feed' ),
 						'properties' => array(
-							'name' => array( get_bloginfo( 'name' ) ),
+							'name'    => array( get_bloginfo( 'name' ) ),
 							'summary' => array( get_bloginfo( 'description' ) ),
-							'url' => array( site_url( '/' ) )
-						)
-					)
-				)
+							'url'     => array( site_url( '/' ) ),
+						),
+					),
+				),
 			);
 
 			while ( have_posts() ) {
@@ -119,7 +119,7 @@ class Mf2Feed {
 		require_once dirname( __FILE__ ) . '/includes/class-mf2-feed-entry.php';
 
 		if ( $for_comments ) {
-			$post = new Mf2_Feed_Entry( get_the_ID(), $for_comments );
+			$post  = new Mf2_Feed_Entry( get_the_ID(), $for_comments );
 			$items = $post->to_jf2();
 		} else {
 			$items = array( 'type' => 'feed' );
@@ -193,15 +193,15 @@ class Mf2Feed {
 	 */
 	public static function add_html_header() {
 		if ( is_singular() ) {
-		?>
+			?>
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'mf2' ) ); ?>" href="<?php echo esc_url( get_post_comments_feed_link( null, 'mf2' ) ); ?>" />
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2' ) ); ?>" href="<?php echo esc_url( get_post_comments_feed_link( null, 'jf2' ) ); ?>" />
-		<?php
-	} elseif ( is_home() ) {
-		?>
+			<?php
+		} elseif ( is_home() ) {
+			?>
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'mf2' ) ); ?>" href="<?php echo esc_url( get_feed_link( 'mf2' ) ); ?>" />
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2' ) ); ?>" href="<?php echo esc_url( get_feed_link( 'jf2' ) ); ?>" />
-		<?php
+			<?php
 		}
 	}
 }

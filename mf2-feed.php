@@ -124,10 +124,10 @@ class Mf2Feed {
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'mf2' ) ); ?>" href="<?php echo esc_url( get_post_comments_feed_link( null, 'mf2' ) ); ?>" />
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2' ) ); ?>" href="<?php echo esc_url( get_post_comments_feed_link( null, 'jf2' ) ); ?>" />
 			<?php
-		} elseif ( is_home() ) {
+		} elseif ( ) {
 			?>
 <link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'mf2' ) ); ?>" href="<?php echo esc_url( get_feed_link( 'mf2' ) ); ?>" />
-<link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2' ) ); ?>" href="<?php echo esc_url( get_feed_link( 'jf2' ) ); ?>" />
+<link rel="alternate" type="<?php echo esc_attr( feed_content_type( 'jf2feed' ) ); ?>" href="<?php echo esc_url( get_feed_link( 'jf2' ) ); ?>" />
 			<?php
 		}
 	}

@@ -34,16 +34,16 @@ class Mf2_Feed_Entry {
 		if ( $this->name = $this->_id ) {
 			$this->name = null;
 		}
-		$this->published        = get_post_time( DATE_W3C, false, $post );
-		$this->updated          = get_post_modified_time( DATE_W3C, false, $post );
-		$content = get_the_content( null, false, $post );
+		$this->published = get_post_time( DATE_W3C, false, $post );
+		$this->updated   = get_post_modified_time( DATE_W3C, false, $post );
+		$content         = get_the_content( null, false, $post );
 		if ( ! empty( $content ) ) {
 			$this->content['html']  = get_the_content( null, false, $post );
 			$this->content['value'] = wp_strip_all_tags( $this->content['html'] );
 		}
-		$this->summary          = get_the_excerpt( $post );
-		$this->url              = get_permalink( $post );
-		$this->uid              = get_permalink( $post );
+		$this->summary = get_the_excerpt( $post );
+		$this->url     = get_permalink( $post );
+		$this->uid     = get_permalink( $post );
 
 		// Get a list of categories and extract their names
 		$post_categories = get_the_terms( $post->ID, 'category' );

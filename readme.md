@@ -1,21 +1,22 @@
 # MF2 Feeds #
-**Contributors:** [pfefferle](https://profiles.wordpress.org/pfefferle), [indieweb](https://profiles.wordpress.org/indieweb)  
+**Contributors:** [pfefferle](https://profiles.wordpress.org/pfefferle), [dshanske](https://profiles.wordpress.org/dshanske), [indieweb](https://profiles.wordpress.org/indieweb)  
 **Donate link:** https://notiz.blog/donate/  
 **Tags:** microformats, mf2, jf2, rel-alternate, indieweb  
-**Requires at least:** 4.7  
-**Tested up to:** 4.9.8  
-**Stable tag:** 2.1.0  
-**Requires PHP:** 5.3  
+**Requires at least:** 5.2  
+**Tested up to:** 5.3.2  
+**Stable tag:** 3.0.0  
+**Requires PHP:** 5.6  
 **License:** MIT  
 **License URI:** http://opensource.org/licenses/MIT  
 
-Microformats2 Feeds for WordPress
+Add Microformats2 Feeds for WordPress
 
 ## Description ##
 
-[Microformats2](https://indieweb.org/microformats) are a key [building-block](https://indieweb.org/Category:building-blocks) of the IndieWeb, but it is very hard (if not impossible) to get Microformats2 as a core feature for all WordPress themes. There are several themes that are supporting Microformats2, but everyone should choose his prefered theme and should not be limited to use one of the [few community themes](https://indieweb.org/WordPress/Themes). After [a lot of discussions](https://github.com/indieweb/wordpress-uf2/issues/30) and some different plugin approaches, we are trying to provide an alternate ([`rel=altenate`](https://indieweb.org/rel-alternate)) representation of the microformatted HTML.
+Provides a [Microformats2 JSON](http://microformats.org/wiki/microformats2-parsing) "Feed" for every WordPress URL, and helps to allow other sites to get pre-parsed [Microformats-JSON](https://indieweb.org/jf2) even if the theme 
+does not support Microformats2.                
 
-The `mf2-feed` plugin provides a [Microformats2 JSON](http://microformats.org/wiki/microformats2-parsing) "Feed" for every WordPress URL, and helps to get a pre-parsed [Microformats-JSON](https://indieweb.org/jf2) even if the theme does not support Microformats2.
+[Microformats2](https://indieweb.org/microformats) are a key [building-block](https://indieweb.org/Category:building-blocks) of the IndieWeb, but it is very hard (if not impossible) to get Microformats2 as a core feature for all WordPress themes. There are several themes that are supporting Microformats2, but everyone should choose his prefered theme and should not be limited to use one of the [few community themes](https://indieweb.org/WordPress/Themes). After [a lot of discussions](https://github.com/indieweb/wordpress-uf2/issues/30) and some different plugin approaches, we are trying to provide an alternate ([`rel=altenate`](https://indieweb.org/rel-alternate)) representation of the microformatted HTML.
 
 The plugin is inspired by the URL design of [p3k](https://github.com/aaronpk/p3k) of [@aaronpk](https://github.com/aaronpk).
 
@@ -35,7 +36,7 @@ WordPress Example:
 
 ### What are Microformats 2? ###
 
-Microformats are a simple way to markup structured information in HTML. WordPress incorporates some classic Microformats. Microformats 2 supersedes class microformats.
+Microformats are a simple way to markup structured information in HTML using classes. WordPress incorporates some classic Microformats. Microformats 2 supersedes classic microformats.
 
 ## Installation ##
 
@@ -78,6 +79,15 @@ To install a WordPress Plugin manually:
 ## Changelog ##
 
 Project actively developed on Github at [indieweb/wordpress-mf2-feed](https://github.com/indieweb/wordpress-mf2-feed). Please file support issues there.
+
+### 3.0.0 ###
+* Refactored to match the configuration of feeds built into WordPress
+* Bumped PHP Version requirement to PHP5.6 to match WordPress 5.3
+* Bumped minimum WordPress version to 5.2 as this allows for the version of get_content that includes a $post parameter
+* Fixed incorrect PHPCS configuration
+* Enabled JSON Pretty Print by default as originally disabled due a PHP5.4 requirement
+* Changed Post Item Generation Class to use WordPress functions instead of directly accessing the data where applicable
+* Adjusted jf2 feed to comply with jf2feed spec (https://jf2.spec.indieweb.org/#jf2feed)
 
 ### 2.1.0 ###
 

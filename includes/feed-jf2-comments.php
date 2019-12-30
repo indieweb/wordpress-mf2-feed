@@ -9,8 +9,11 @@ header( 'Content-Type: ' . feed_content_type( 'jf2' ), true );
 
 require_once dirname( __FILE__ ) . '/class-mf2-feed-entry.php';
 $items = array();
-$item  = new Mf2_Feed_Entry( get_the_ID() );
-$items = $item->to_jf2();
+$p     = get_post();
+if ( $p ) {
+	$item  = new Mf2_Feed_Entry( $p );
+	$items = $item->to_jf2();
+}
 
 // filter output
 $items = apply_filters( 'jf2_feed_array', $items );

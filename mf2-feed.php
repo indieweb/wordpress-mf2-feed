@@ -169,7 +169,8 @@ class Mf2Feed {
 		}
 
 		if ( 'jf2' === $type || 'jf2' === $type ) {
-			return apply_filters( 'jf2_feed_content_type', 'application/jf2feed+json' );
+			$type_string = ( is_singular() ) ? 'application/jf2+json' : 'application/jf2feed+json';
+			return apply_filters( 'jf2_feed_content_type', $type_string );
 		}
 
 		return $content_type;

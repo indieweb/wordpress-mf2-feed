@@ -68,7 +68,7 @@ class Mf2Feed {
 	 * @return string $json_str JSON encoded string
 	 */
 	public static function encode_json( $json, $feed = 'mf2' ) {
-		$options |= JSON_PRETTY_PRINT;
+		$options = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES;
 		/*
 		 * Options to be passed to json_encode()
 		 *
@@ -90,7 +90,6 @@ class Mf2Feed {
 		} else {
 			load_template( dirname( __FILE__ ) . '/includes/feed-jf2.php' );
 		}
-		require_once dirname( __FILE__ ) . '/includes/class-mf2-feed-entry.php';
 	}
 
 	/**

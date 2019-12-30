@@ -132,3 +132,12 @@ class Mf2Feed {
 		}
 	}
 }
+
+// Backcompat for function introduced in WordPress 5.3
+if ( ! function_exists( 'get_self_link' ) ) {
+	function get_self_link() {
+		$host = @parse_url( home_url() );
+		return set_url_scheme( 'http://' . $host['host'] . wp_unslash( $_SERVER['REQUEST_URI'] ) );
+	}
+}
+

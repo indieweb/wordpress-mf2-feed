@@ -15,11 +15,16 @@ $items = array(
 			'properties' => array(
 				'name'    => array( get_bloginfo( 'name' ) ),
 				'summary' => array( get_bloginfo( 'description' ) ),
-				'url'     => array( site_url( '/' ) ),
+				'url'     => array( get_self_link() ),
 			),
 		),
 	),
 );
+
+$featured = get_site_icon_url();
+if ( ! empty( $featured ) ) {
+	$items['items'][0]['properties']['featured'] = array( $featured );
+}
 
 while ( have_posts() ) {
 	the_post();

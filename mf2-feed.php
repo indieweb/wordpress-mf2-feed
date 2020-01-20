@@ -4,8 +4,8 @@
  * Plugin URI: http://github.com/indieweb/wordpress-mf2-feed/
  * Description: Adds a Microformats2 JSON feed for every entry
  * Version: 3.0.0
- * Author: Matthias Pfefferle
- * Author URI: https://notiz.blog/
+ * Author: WordPress Outreach Club
+ * Author URI: https://indieweb.org/WordPress_Outreach_Club
  * License: MIT
  * License URI: http://opensource.org/licenses/MIT
  * Text Domain: mf2-feed

@@ -1,6 +1,6 @@
 # MF2 Feeds #
 **Contributors:** [pfefferle](https://profiles.wordpress.org/pfefferle), [dshanske](https://profiles.wordpress.org/dshanske), [indieweb](https://profiles.wordpress.org/indieweb)  
-**Donate link:** https://notiz.blog/donate/  
+**Donate link:** https://opencollective.com/indieweb  
 **Tags:** microformats, mf2, jf2, rel-alternate, indieweb  
 **Requires at least:** 5.2  
 **Tested up to:** 5.3.2  
@@ -13,8 +13,8 @@ Add Microformats2 Feeds for WordPress
 
 ## Description ##
 
-Provides a [Microformats2 JSON](http://microformats.org/wiki/microformats2-parsing) "Feed" for every WordPress URL, and helps to allow other sites to get pre-parsed [Microformats-JSON](https://indieweb.org/jf2) even if the theme 
-does not support Microformats2.                
+Provides a [Microformats2 JSON](http://microformats.org/wiki/microformats2-parsing) "Feed" for every WordPress URL, and helps to allow other sites to get pre-parsed [Microformats-JSON](https://indieweb.org/jf2) even if the theme
+does not support Microformats2.
 
 [Microformats2](https://indieweb.org/microformats) are a key [building-block](https://indieweb.org/Category:building-blocks) of the IndieWeb, but it is very hard (if not impossible) to get Microformats2 as a core feature for all WordPress themes. There are several themes that are supporting Microformats2, but everyone should choose his prefered theme and should not be limited to use one of the [few community themes](https://indieweb.org/WordPress/Themes). After [a lot of discussions](https://github.com/indieweb/wordpress-uf2/issues/30) and some different plugin approaches, we are trying to provide an alternate ([`rel=altenate`](https://indieweb.org/rel-alternate)) representation of the microformatted HTML.
 

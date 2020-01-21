@@ -11,6 +11,7 @@ class Mf2_Feed_Entry {
 	public $type;
 	public $name;
 	public $url;
+	public $uid;
 	public $author = array();
 	public $published;
 	public $updated;
@@ -26,15 +27,23 @@ class Mf2_Feed_Entry {
 			return false;
 		}
 
-		$this->_id              = $post->ID;
-		$this->type             = 'entry';
-		$this->name             = $post->post_name;
-		$this->published        = mysql2date( DATE_W3C, $post->post_date );
-		$this->updated          = mysql2date( DATE_W3C, $post->post_modified );
-		$this->content['html']  = $this->get_content_by_id( $post->ID );
-		$this->content['value'] = wp_strip_all_tags( $post->post_content );
-		$this->summary          = $this->get_excerpt_by_id( $post->ID );
-		$this->url              = get_permalink( $post->ID );
+		$this->_id  = $post->ID;
+		$this->type = 'entry';
+		$this->name = get_the_title( $post );
+		// Eliminate IDs as names
+		if ( $this->name = $this->_id ) {
+			$this->name = null;
+		}
+		$this->published = get_post_time( DATE_W3C, false, $post );
+		$this->updated   = get_post_modified_time( DATE_W3C, false, $post );
+		$content         = get_the_content( null, false, $post );
+		if ( ! empty( $content ) ) {
+			$this->content['html']  = get_the_content( null, false, $post );
+			$this->content['value'] = wp_strip_all_tags( $this->content['html'] );
+		}
+		$this->summary = get_the_excerpt( $post );
+		$this->url     = get_permalink( $post );
+		$this->uid     = get_permalink( $post );
 
 		// Get a list of categories and extract their names
 		$post_categories = get_the_terms( $post->ID, 'category' );
@@ -63,15 +72,15 @@ class Mf2_Feed_Entry {
 			foreach ( get_comments( array( 'post_id' => $post->ID ) ) as $post_comment ) {
 				$comment                     = array();
 				$comment['type']             = 'cite';
-				$comment['content']['html']  = $post_comment->comment_content;
-				$comment['content']['value'] = wp_strip_all_tags( $post_comment->comment_content );
-				$comment['published']        = mysql2date( DATE_W3C, $post_comment->comment_date_gmt );
+				$comment['content']['html']  = get_comment_text( $post_comment );
+				$comment['content']['value'] = wp_strip_all_tags( $comment['content']['html'] );
+				$comment['published']        = get_comment_date( DATE_W3C, $post_comment );
 				$comment['author']['type']   = 'card';
-				$comment['author']['name']   = $post_comment->comment_author;
-				$comment['author']['value']  = $post_comment->comment_author;
+				$comment['author']['name']   = get_comment_author( $post_comment );
+				$comment['author']['value']  = $comment['author']['name'];
 
 				if ( $post_comment->comment_author_url ) {
-					$comment['author']['url'] = $post_comment->comment_author_url;
+					$comment['author']['url'] = get_comment_author_url( $post_comment );
 				}
 
 				$this->comment[] = $comment;
@@ -79,52 +88,15 @@ class Mf2_Feed_Entry {
 		}
 	}
 
-	/**
-	 * Display the post content. Optinally allows post ID to be passed
-	 * @uses the_content()
-	 *
-	 * @param int $id Optional. Post ID.
-	 * @param string $more_link_text Optional. Content for when there is more text.
-	 * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
-	 */
-	private function get_content_by_id( $post_id = 0, $more_link_text = null, $stripteaser = false ) {
-		global $post;
-		$post = get_post( $post_id );
-		setup_postdata( $post, $more_link_text, $stripteaser );
-		$content = get_the_content();
-		wp_reset_postdata( $post );
-
-		return $content;
-	}
-
-	/**
-	 * Display the excerpt content. Optinally allows post ID to be passed
-	 * @uses the_content()
-	 *
-	 * @param int $id Optional. Post ID.
-	 * @param string $more_link_text Optional. Content for when there is more text.
-	 * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
-	 */
-	private function get_excerpt_by_id( $post_id = 0, $more_link_text = null, $stripteaser = false ) {
-		global $post;
-		$post = get_post( $post_id );
-		setup_postdata( $post, $more_link_text, $stripteaser );
-		$content = get_the_excerpt();
-		wp_reset_postdata( $post );
-
-		return $content;
-	}
-
 	public function to_mf2() {
 		$entry = apply_filters( 'jf2_entry_array', get_object_vars( $this ), $this->_id );
+		$entry = array_filter( $entry );
 		$entry = apply_filters( 'mf2_entry_array', $this->jf2_to_mf2( $entry ), $this->_id );
-
-		return array_filter( $entry );
+		return $entry;
 	}
 
 	public function to_jf2() {
 		$entry = apply_filters( 'jf2_entry_array', get_object_vars( $this ), $this->_id );
-
 		return array_filter( $entry );
 	}
 

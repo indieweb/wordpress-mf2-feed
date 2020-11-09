@@ -80,7 +80,12 @@ To install a WordPress Plugin manually:
 
 Project actively developed on Github at [indieweb/wordpress-mf2-feed](https://github.com/indieweb/wordpress-mf2-feed). Please file support issues there.
 
+= 3.1.0 =
+
+* Support Content Negotiation
+
 = 3.0.0 =
+
 * Refactored to match the configuration of feeds built into WordPress
 * Bumped PHP Version requirement to PHP5.6 to match WordPress 5.3
 * Bumped minimum WordPress version to 5.2 as this allows for the version of get_content that includes a $post parameter

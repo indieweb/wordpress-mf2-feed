@@ -3,7 +3,7 @@
  * Plugin Name: MF2 Feed
  * Plugin URI: http://github.com/indieweb/wordpress-mf2-feed/
  * Description: Adds a Microformats2 JSON feed for every entry
- * Version: 3.0.0
+ * Version: 3.1.0
  * Author: IndieWeb WordPress Outreach Club
  * Author URI: https://indieweb.org/WordPress_Outreach_Club
  * License: MIT
@@ -35,6 +35,8 @@ class Mf2Feed {
 
 		add_action( 'wp_head', array( 'Mf2Feed', 'add_html_header' ), 5 );
 		add_filter( 'feed_content_type', array( 'Mf2Feed', 'feed_content_type' ), 10, 2 );
+
+		add_filter( 'template_include', array( 'Mf2Feed', 'render_json_template' ), 100 );
 	}
 
 	public static function activate() {
@@ -90,6 +92,52 @@ class Mf2Feed {
 		} else {
 			load_template( dirname( __FILE__ ) . '/includes/feed-jf2.php' );
 		}
+	}
+
+	/**
+	 * Return a MF2/JF2 JSON version of an author, post or page.
+	 *
+	 * @param  string $template The path to the template object.
+	 *
+	 * @return string The new path to the JSON template.
+	 */
+	public static function render_json_template( $template ) {
+		if ( ! is_singular() ) {
+			return $template;
+		}
+
+		global $wp_query;
+
+		if ( ! isset( $_SERVER['HTTP_ACCEPT'] ) ) {
+			return $template;
+		}
+
+		$accept_header = $_SERVER['HTTP_ACCEPT'];
+
+		if (
+			stristr( $accept_header, 'application/mf2+json' )
+		) {
+			return dirname( __FILE__ ) . '/includes/feed-mf2-comments.php';;
+		} elseif (
+			stristr( $accept_header, 'application/jf2+json' )
+		) {
+			return dirname( __FILE__ ) . '/includes/feed-jf2-comments.php';
+		}
+
+		// Accept header as an array.
+		$accept = explode( ',', trim( $accept_header ) );
+
+		if (
+			in_array( 'application/mf2+json', $accept, true )
+		) {
+			return dirname( __FILE__ ) . '/includes/feed-mf2-comments.php';;
+		} elseif (
+			in_array( 'application/jf2+json', $accept, true )
+		) {
+			return dirname( __FILE__ ) . '/includes/feed-jf2-comments.php';
+		}
+
+		return $template;
 	}
 
 	/**

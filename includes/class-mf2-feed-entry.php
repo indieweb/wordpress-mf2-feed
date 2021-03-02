@@ -127,6 +127,8 @@ class Mf2_Feed_Entry {
 					$items[] = $this->jf2_to_mf2( $item );
 				}
 				$value = $items;
+			} elseif ( wp_is_numeric_array( $value ) && ! is_array( $value[0] ) ) {
+				$value = $value;
 			} elseif ( ! wp_is_numeric_array( $value ) ) {
 				$value = array( $value );
 			} else {

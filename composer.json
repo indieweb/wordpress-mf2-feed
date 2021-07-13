@@ -21,7 +21,7 @@
     "squizlabs/php_codesniffer": "^2.2 || ^3.0.2",
     "phpcompatibility/php-compatibility": "*",
     "wp-coding-standards/wpcs": "*",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
     "phpcompatibility/phpcompatibility-wp": "^1.0"
   },
   "scripts": {

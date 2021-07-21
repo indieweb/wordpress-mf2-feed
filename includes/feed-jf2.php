@@ -4,7 +4,6 @@
  *
  * @package MF2 Feed
  */
-
 header( 'Content-Type: ' . feed_content_type( 'jf2feed' ), true );
 
 require_once dirname( __FILE__ ) . '/class-mf2-feed-entry.php';

@@ -148,14 +148,14 @@ class Mf2Feed {
 	 * @return string the as1 content-type
 	 */
 	public static function feed_content_type( $content_type, $type ) {
-		if ( 'mf2' === $type || 'mf2' === $type ) {
+		if ( 'mf2' === $type ) {
 			return apply_filters( 'mf2_feed_content_type', 'application/mf2+json' );
 		}
 
-		if ( 'jf2' === $type || 'jf2' === $type ) {
+		if ( 'jf2' === $type ) {
 			return apply_filters( 'jf2_feed_content_type', 'application/jf2+json' );
 		}
-		if ( 'jf2feed' === $type || 'jf2feed' === $type ) {
+		if ( 'jf2feed' === $type ) {
 			return apply_filters( 'jf2_feed_content_type', 'application/jf2feed+json' );
 		}
 

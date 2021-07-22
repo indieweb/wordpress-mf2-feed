@@ -148,18 +148,20 @@ class Mf2Feed {
 	 * @return string the as1 content-type
 	 */
 	public static function feed_content_type( $content_type, $type ) {
-		if ( 'mf2' === $type ) {
-			return apply_filters( 'mf2_feed_content_type', 'application/mf2+json' );
+		switch ( $type ) {
+			case 'mf2':
+				return apply_filters( 'mf2_feed_content_type', 'application/mf2+json' );
+				break;
+			case 'jf2':
+				return apply_filters( 'jf2_feed_content_type', 'application/jf2+json' );
+				break;
+			case 'jf2feed':
+				return apply_filters( 'jf2_feed_content_type', 'application/jf2feed+json' );
+				break;
+			default:
+				return $content_type;
+				break;
 		}
-
-		if ( 'jf2' === $type ) {
-			return apply_filters( 'jf2_feed_content_type', 'application/jf2+json' );
-		}
-		if ( 'jf2feed' === $type ) {
-			return apply_filters( 'jf2_feed_content_type', 'application/jf2feed+json' );
-		}
-
-		return $content_type;
 	}
 
 	/**

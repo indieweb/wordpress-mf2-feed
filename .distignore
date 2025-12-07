@@ -5,7 +5,6 @@
 /bin
 /vendor
 /tests
-.gitignore
 package.json
 composer.json
 composer.lock
@@ -17,3 +16,4 @@ readme.txt
 .travis.yml
 .distignore
 .gitignore
+.gitattributes

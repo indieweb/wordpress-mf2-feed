@@ -1,5 +1,5 @@
 # MF2 Feeds
-- Contributors: [pfefferle](https://profiles.wordpress.org/pfefferle/), [dshanske](https://profiles.wordpress.org/dshanske/), [indieweb](https://profiles.wordpress.org/indieweb/)
+- Contributors: pfefferle, dshanske, indieweb
 - Donate link: https://opencollective.com/indieweb
 - Tags: microformats, mf2, jf2, rel-alternate, indieweb
 - Requires at least: 5.2

@@ -6,7 +6,6 @@
 /vendor
 /tests
 .gitignore
-readme.md
 package.json
 composer.json
 composer.lock

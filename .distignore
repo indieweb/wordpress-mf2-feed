@@ -5,6 +5,7 @@
 /bin
 /vendor
 /tests
+.gitignore
 readme.md
 package.json
 composer.json

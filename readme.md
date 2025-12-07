@@ -1,17 +1,17 @@
-# MF2 Feeds #
-**Contributors:** [pfefferle](https://profiles.wordpress.org/pfefferle/), [dshanske](https://profiles.wordpress.org/dshanske/), [indieweb](https://profiles.wordpress.org/indieweb/)  
-**Donate link:** https://opencollective.com/indieweb  
-**Tags:** microformats, mf2, jf2, rel-alternate, indieweb  
-**Requires at least:** 5.2  
-**Tested up to:** 6.6  
-**Stable tag:** 3.1.1  
-**Requires PHP:** 5.6  
-**License:** MIT  
-**License URI:** http://opensource.org/licenses/MIT  
+# MF2 Feeds
+- Contributors: [pfefferle](https://profiles.wordpress.org/pfefferle/), [dshanske](https://profiles.wordpress.org/dshanske/), [indieweb](https://profiles.wordpress.org/indieweb/)
+- Donate link: https://opencollective.com/indieweb
+- Tags: microformats, mf2, jf2, rel-alternate, indieweb
+- Requires at least: 5.2
+- Tested up to: 6.9
+- Stable tag: 3.1.1
+- Requires PHP: 5.6
+- License: MIT
+- License URI: http://opensource.org/licenses/MIT
 
 Add Microformats2 Feeds for WordPress
 
-## Description ##
+## Description
 
 Provides a [Microformats2 JSON](http://microformats.org/wiki/microformats2-parsing) "Feed" for every WordPress URL, and helps to allow other sites to get pre-parsed [Microformats-JSON](https://indieweb.org/jf2) even if the theme
 does not support Microformats2.
@@ -32,17 +32,17 @@ WordPress Example:
 * Microformats2 JSON: <https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/feed/mf2>
 * JF2: <https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/feed/jf2>
 
-## FAQ ##
+## FAQ
 
-### What are Microformats 2? ###
+### What are Microformats 2?
 
 Microformats are a simple way to markup structured information in HTML using classes. WordPress incorporates some classic Microformats. Microformats 2 supersedes classic microformats.
 
-## Installation ##
+## Installation
 
 Follow the normal instructions for [installing WordPress plugins](https://codex.wordpress.org/Managing_Plugins#Installing_Plugins).
 
-### Automatic Plugin Installation ###
+### Automatic Plugin Installation
 
 To add a WordPress Plugin using the [built-in plugin installer](https://codex.wordpress.org/Administration_Screens#Add_New_Plugins):
 
@@ -54,7 +54,7 @@ To add a WordPress Plugin using the [built-in plugin installer](https://codex.wo
 1. The resulting installation screen will list the installation as successful or note any problems during the install.
 1. If successful, click **Activate Plugin** to activate it, or **Return to Plugin Installer** for further actions.
 
-### Manual Plugin Installation ###
+### Manual Plugin Installation
 
 There are a few cases when manually installing a WordPress Plugin is appropriate.
 
@@ -76,19 +76,19 @@ To install a WordPress Plugin manually:
 * Go to [Plugins screen](https://codex.wordpress.org/Administration_Screens#Plugins) and find the newly uploaded Plugin in the list.
 * Click **Activate** to activate it.
 
-## Changelog ##
+## Changelog
 
 Project actively developed on Github at [indieweb/wordpress-mf2-feed](https://github.com/indieweb/wordpress-mf2-feed). Please file support issues there.
 
-### 3.1.1 ###
+### 3.1.1
 
 * Small tweaks and dependency updates
 
-### 3.1.0 ###
+### 3.1.0
 
 * Support Content Negotiation
 
-### 3.0.0 ###
+### 3.0.0
 
 * Refactored to match the configuration of feeds built into WordPress
 * Bumped PHP Version requirement to PHP5.6 to match WordPress 5.3
@@ -98,20 +98,20 @@ Project actively developed on Github at [indieweb/wordpress-mf2-feed](https://gi
 * Changed Post Item Generation Class to use WordPress functions instead of directly accessing the data where applicable
 * Adjusted jf2 feed to comply with jf2feed spec (https://jf2.spec.indieweb.org/#jf2feed)
 
-### 2.1.0 ###
+### 2.1.0
 
 * Fixed JSON output
 * Fixed "flush rewrite rules" again
 
-### 2.0.1 ###
+### 2.0.1
 
 * Fixed "flush rewrite rules"
 * Added filter to extend the mf2/jf2 data
 
-### 2.0.0 ###
+### 2.0.0
 
 * Complete re-write to match the latest ideas of rel-alternate: https://github.com/indieweb/wordpress-uf2/issues/38
 
-### 1.0.0 ###
+### 1.0.0
 
 * Initial plugin

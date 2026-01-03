@@ -19,9 +19,11 @@
   },
   "homepage": "https://github.com/indieweb/wordpress-mf2-feed#readme",
   "devDependencies": {
-    "grunt": "^1.0.3",
-    "grunt-checktextdomain": "^1.0.1",
-    "grunt-wp-i18n": "^1.0.2",
-    "grunt-wp-readme-to-markdown": "^2.0.1"
+    "@wordpress/env": "^10.0.0"
+  },
+  "scripts": {
+    "env:start": "wp-env start",
+    "env:stop": "wp-env stop",
+    "env:destroy": "wp-env destroy"
   }
 }

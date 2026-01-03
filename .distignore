@@ -8,7 +8,7 @@
 package.json
 composer.json
 composer.lock
-Gruntfile.js
+.wp-env.json
 push.sh
 phpunit.xml
 phpcs.xml

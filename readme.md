@@ -3,7 +3,7 @@
 - Donate link: https://opencollective.com/indieweb
 - Tags: microformats, mf2, jf2, rel-alternate, indieweb
 - Requires at least: 5.2
-- Tested up to: 7.0
+- Tested up to: 7.1
 - Stable tag: 3.1.1
 - Requires PHP: 7.4
 - License: MIT

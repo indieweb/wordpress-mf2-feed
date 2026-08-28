@@ -14,6 +14,8 @@ $items = array(
 	'summary' => get_bloginfo( 'description' ),
 	'url'     => get_self_link(),
 );
+
+$featured = get_site_icon_url();
 if ( ! empty( $featured ) ) {
 	$items['featured'] = $featured;
 }

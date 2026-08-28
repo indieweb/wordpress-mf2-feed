@@ -10,9 +10,8 @@ defined( 'ABSPATH' ) || exit;
 header( 'Content-Type: ' . feed_content_type( 'jf2' ), true );
 
 $items = array();
-$p     = get_post();
-if ( $p ) {
-	$item  = new Mf2_Feed_Entry( $p );
+$item  = Mf2_Feed_Entry::from_post( get_post() );
+if ( $item ) {
 	$items = $item->to_jf2();
 }
 

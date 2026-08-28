@@ -24,12 +24,29 @@ class Mf2_Feed_Entry {
 	public $featured;
 	public $comment = array();
 
-	public function __construct( $post, $with_comments = false ) {
+	/**
+	 * Builds an entry from a post.
+	 *
+	 * @param int|WP_Post $post          Post ID or object.
+	 * @param bool        $with_comments Whether to include the comments.
+	 *
+	 * @return Mf2_Feed_Entry|null The entry, or null if the post does not exist.
+	 */
+	public static function from_post( $post, $with_comments = false ) {
 		$post = get_post( $post );
-		if ( ! $post ) {
-			return false;
+
+		if ( ! $post instanceof WP_Post ) {
+			return null;
 		}
 
+		return new self( $post, $with_comments );
+	}
+
+	/**
+	 * @param WP_Post $post          A valid post object, see `from_post()`.
+	 * @param bool    $with_comments Whether to include the comments.
+	 */
+	public function __construct( WP_Post $post, $with_comments = false ) {
 		$this->_id  = $post->ID;
 		$this->type = 'entry';
 		$this->name = get_the_title( $post );

@@ -8,6 +8,7 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
 class Mf2_Feed_Entry {
 	public $_id;
 	public $type;

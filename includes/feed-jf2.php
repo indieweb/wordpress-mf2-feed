@@ -6,6 +6,7 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
 header( 'Content-Type: ' . feed_content_type( 'jf2feed' ), true );
 
 $items = array(

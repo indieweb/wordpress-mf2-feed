@@ -29,8 +29,10 @@ if ( ! empty( $featured ) ) {
 
 while ( have_posts() ) {
 	the_post();
-	$item                            = new Mf2_Feed_Entry( get_the_ID() );
-	$items['items'][0]['children'][] = current( $item->to_mf2() );
+	$item = Mf2_Feed_Entry::from_post( get_post() );
+	if ( $item ) {
+		$items['items'][0]['children'][] = current( $item->to_mf2() );
+	}
 }
 
 // filter output

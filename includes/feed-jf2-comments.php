@@ -18,4 +18,4 @@ if ( $p ) {
 
 // filter output
 $items = apply_filters( 'jf2_feed_array', $items );
-echo Mf2_Feed::encode_json( $items, 'jf2' );
+echo Mf2_Feed::encode_json( $items, 'jf2' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON output.

@@ -92,15 +92,68 @@ class Mf2_Feed_Entry {
 	}
 
 	public function to_mf2() {
-		$entry = apply_filters( 'jf2_entry_array', get_object_vars( $this ), $this->_id );
+		$entry = apply_filters( 'jf2_entry_array', $this->get_properties(), $this->_id );
 		$entry = array_filter( $entry );
 		$entry = apply_filters( 'mf2_entry_array', $this->jf2_to_mf2( $entry ), $this->_id );
 		return $entry;
 	}
 
 	public function to_jf2() {
-		$entry = apply_filters( 'jf2_entry_array', get_object_vars( $this ), $this->_id );
+		$entry = apply_filters( 'jf2_entry_array', $this->get_properties(), $this->_id );
 		return array_filter( $entry );
+	}
+
+	/**
+	 * Returns the JF2 properties of the entry.
+	 *
+	 * Properties from the `mf2_*` post meta are merged in, but the
+	 * properties derived from the post itself win.
+	 *
+	 * @return array
+	 */
+	public function get_properties() {
+		return array_merge( $this->get_meta_properties(), array_filter( get_object_vars( $this ) ) );
+	}
+
+	/**
+	 * Returns the JF2 properties stored as `mf2_*` post meta.
+	 *
+	 * This is the storage format used by the Micropub and Post Kinds plugins.
+	 * The `mf2_` prefix is stripped, `mp-*` (Micropub commands) are skipped.
+	 *
+	 * @return array
+	 */
+	public function get_meta_properties() {
+		$properties = array();
+
+		foreach ( (array) get_post_meta( $this->_id ) as $key => $values ) {
+			if ( 0 !== strpos( $key, 'mf2_' ) ) {
+				continue;
+			}
+
+			$key = substr( $key, 4 );
+
+			if ( 0 === strpos( $key, 'mp-' ) ) {
+				continue;
+			}
+
+			$values = array_map( 'maybe_unserialize', (array) $values );
+
+			// Post meta is always a list, unwrap single values.
+			while ( is_array( $values ) && 1 === count( $values ) && isset( $values[0] ) ) {
+				$values = $values[0];
+			}
+
+			$properties[ $key ] = $values;
+		}
+
+		/**
+		 * Filters the properties read from the `mf2_*` post meta.
+		 *
+		 * @param array $properties The properties.
+		 * @param int   $post_id    The post ID.
+		 */
+		return apply_filters( 'mf2_feed_meta_properties', $properties, $this->_id );
 	}
 
 	public function jf2_to_mf2( $entry ) {

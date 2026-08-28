@@ -4,7 +4,7 @@
 - Tags: microformats, mf2, jf2, rel-alternate, indieweb
 - Requires at least: 5.3
 - Tested up to: 7.1
-- Stable tag: 3.1.1
+- Stable tag: 3.2.0
 - Requires PHP: 7.4
 - License: MIT
 - License URI: http://opensource.org/licenses/MIT
@@ -84,6 +84,15 @@ The plugin is developed on GitHub at [indieweb/wordpress-mf2-feed](https://githu
 ## Changelog
 
 Project actively developed on Github at [indieweb/wordpress-mf2-feed](https://github.com/indieweb/wordpress-mf2-feed). Please file support issues there.
+
+### 3.2.0
+
+* Moved the main class to `includes/` and renamed it to `Mf2_Feed` (`Mf2Feed` still works as alias)
+* Added `MF2_FEED_*` constants
+* Fixed the `mf2_feed_options`/`jf2_feed_options` filters, they never fired
+* Fixed post names being replaced by their IDs
+* Fixed missing site icon in the JF2 feed
+* Removed the `get_self_link()` shim, requires WordPress 5.3 now
 
 ### 3.1.1
 

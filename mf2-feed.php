@@ -3,7 +3,7 @@
  * Plugin Name: MF2 Feed
  * Plugin URI: http://github.com/indieweb/wordpress-mf2-feed/
  * Description: Adds a Microformats2 JSON feed for every entry
- * Version: 3.1.1
+ * Version: 3.2.0
  * Author: IndieWeb WordPress Outreach Club
  * Author URI: https://indieweb.org/WordPress_Outreach_Club
  * License: MIT
@@ -14,7 +14,7 @@
  * Domain Path: /languages
  */
 
-\define( 'MF2_FEED_VERSION', '3.1.1' );
+\define( 'MF2_FEED_VERSION', '3.2.0' );
 
 \define( 'MF2_FEED_PLUGIN_DIR', \plugin_dir_path( __FILE__ ) );
 \define( 'MF2_FEED_PLUGIN_BASENAME', \plugin_basename( __FILE__ ) );

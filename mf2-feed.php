@@ -8,6 +8,8 @@
  * Author URI: https://indieweb.org/WordPress_Outreach_Club
  * License: MIT
  * License URI: http://opensource.org/licenses/MIT
+ * Requires at least: 5.3
+ * Requires PHP: 7.4
  * Text Domain: mf2-feed
  * Domain Path: /languages
  */
@@ -26,12 +28,3 @@ add_action( 'init', array( 'Mf2_Feed', 'init' ) );
 // flush rewrite rules
 register_activation_hook( __FILE__, array( 'Mf2_Feed', 'activate' ) );
 register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
-
-// Backcompat for function introduced in WordPress 5.3
-if ( ! function_exists( 'get_self_link' ) ) {
-	function get_self_link() {
-		$host = @parse_url( home_url() );
-		return set_url_scheme( 'http://' . $host['host'] . wp_unslash( $_SERVER['REQUEST_URI'] ) );
-	}
-}
-

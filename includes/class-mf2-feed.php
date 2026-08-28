@@ -23,35 +23,71 @@ class Mf2_Feed {
 		add_filter( 'template_include', array( __CLASS__, 'render_json_template' ), 100 );
 	}
 
+	/**
+	 * Activation hook
+	 */
 	public static function activate() {
 		self::setup_feeds();
 		flush_rewrite_rules();
 	}
 
-
+	/**
+	 * Registers the feeds
+	 */
 	public static function setup_feeds() {
 		add_feed( 'mf2', array( __CLASS__, 'do_feed_mf2' ) );
 		add_feed( 'jf2', array( __CLASS__, 'do_feed_jf2' ) );
 	}
 
 	/**
-	 * adds an MF2 JSON feed
+	 * Renders an MF2 JSON feed
 	 *
-	 * @param boolean $for_comments true if it is a comment-feed
+	 * @param bool $for_comments true if it is a comment-feed
 	 */
 	public static function do_feed_mf2( $for_comments ) {
-		if ( $for_comments ) {
-			load_template( MF2_FEED_PLUGIN_DIR . 'includes/feed-mf2-comments.php' );
-		} else {
-			load_template( MF2_FEED_PLUGIN_DIR . 'includes/feed-mf2.php' );
-		}
+		self::load_feed_template( 'mf2', $for_comments );
+	}
+
+	/**
+	 * Renders a JF2 JSON feed
+	 *
+	 * @param bool $for_comments true if it is a comment-feed
+	 */
+	public static function do_feed_jf2( $for_comments ) {
+		self::load_feed_template( 'jf2', $for_comments );
+	}
+
+	/**
+	 * Loads the feed template for a format
+	 *
+	 * @param string $format       "mf2" or "jf2"
+	 * @param bool   $for_comments true if it is a comment-feed
+	 */
+	public static function load_feed_template( $format, $for_comments = false ) {
+		load_template( self::get_feed_template( $format, $for_comments ) );
+	}
+
+	/**
+	 * Returns the path to a feed template
+	 *
+	 * @param string $format       "mf2" or "jf2"
+	 * @param bool   $for_comments true if it is a comment-feed
+	 *
+	 * @return string
+	 */
+	public static function get_feed_template( $format, $for_comments = false ) {
+		$suffix = $for_comments ? '-comments' : '';
+
+		return MF2_FEED_PLUGIN_DIR . 'includes/feed-' . $format . $suffix . '.php';
 	}
 
 	/**
 	 * Prepares JSON for output
 	 *
-	 * @param array $json Associative array
-	 * @return string $json_str JSON encoded string
+	 * @param array  $json Associative array
+	 * @param string $feed The feed type (mf2 or jf2)
+	 *
+	 * @return string JSON encoded string
 	 */
 	public static function encode_json( $json, $feed = 'mf2' ) {
 		$options = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES;
@@ -60,22 +96,9 @@ class Mf2_Feed {
 		 *
 		 * @param int $options The current options flags
 		 */
-		$options = apply_filters( '{$feed}_feed_options', $options ); // phpcs:ignore
+		$options = apply_filters( "{$feed}_feed_options", $options ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 		return wp_json_encode( $json, $options );
-	}
-
-	/**
-	 * adds an UF2 JSON feed
-	 *
-	 * @param boolean $for_comments true if it is a comment-feed
-	 */
-	public static function do_feed_jf2( $for_comments ) {
-		if ( $for_comments ) {
-			load_template( MF2_FEED_PLUGIN_DIR . 'includes/feed-jf2-comments.php' );
-		} else {
-			load_template( MF2_FEED_PLUGIN_DIR . 'includes/feed-jf2.php' );
-		}
 	}
 
 	/**
@@ -86,39 +109,18 @@ class Mf2_Feed {
 	 * @return string The new path to the JSON template.
 	 */
 	public static function render_json_template( $template ) {
-		if ( ! is_singular() ) {
+		if ( ! is_singular() || ! isset( $_SERVER['HTTP_ACCEPT'] ) ) {
 			return $template;
 		}
 
-		global $wp_query;
+		$accept_header = sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT'] ) );
 
-		if ( ! isset( $_SERVER['HTTP_ACCEPT'] ) ) {
-			return $template;
+		if ( stristr( $accept_header, 'application/mf2+json' ) ) {
+			return self::get_feed_template( 'mf2', true );
 		}
 
-		$accept_header = $_SERVER['HTTP_ACCEPT'];
-
-		if (
-			stristr( $accept_header, 'application/mf2+json' )
-		) {
-			return MF2_FEED_PLUGIN_DIR . 'includes/feed-mf2-comments.php';
-		} elseif (
-			stristr( $accept_header, 'application/jf2+json' )
-		) {
-			return MF2_FEED_PLUGIN_DIR . 'includes/feed-jf2-comments.php';
-		}
-
-		// Accept header as an array.
-		$accept = explode( ',', trim( $accept_header ) );
-
-		if (
-			in_array( 'application/mf2+json', $accept, true )
-		) {
-			return MF2_FEED_PLUGIN_DIR . 'includes/feed-mf2-comments.php';
-		} elseif (
-			in_array( 'application/jf2+json', $accept, true )
-		) {
-			return MF2_FEED_PLUGIN_DIR . 'includes/feed-jf2-comments.php';
+		if ( stristr( $accept_header, 'application/jf2+json' ) ) {
+			return self::get_feed_template( 'jf2', true );
 		}
 
 		return $template;
@@ -129,22 +131,18 @@ class Mf2_Feed {
 	 *
 	 * @param string $content_type the default content-type
 	 * @param string $type the feed-type
-	 * @return string the as1 content-type
+	 * @return string the content-type
 	 */
 	public static function feed_content_type( $content_type, $type ) {
 		switch ( $type ) {
 			case 'mf2':
 				return apply_filters( 'mf2_feed_content_type', 'application/mf2+json' );
-				break;
 			case 'jf2':
 				return apply_filters( 'jf2_feed_content_type', 'application/jf2+json' );
-				break;
 			case 'jf2feed':
 				return apply_filters( 'jf2_feed_content_type', 'application/jf2feed+json' );
-				break;
 			default:
 				return $content_type;
-				break;
 		}
 	}
 

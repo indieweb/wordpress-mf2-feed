@@ -96,7 +96,7 @@ class Mf2_Feed {
 	 * @return string The new path to the JSON template.
 	 */
 	public static function render_json_template( $template ) {
-		if ( ! is_singular() || ! isset( $_SERVER['HTTP_ACCEPT'] ) ) {
+		if ( ! self::is_entry() || ! isset( $_SERVER['HTTP_ACCEPT'] ) ) {
 			return $template;
 		}
 
@@ -134,10 +134,22 @@ class Mf2_Feed {
 	}
 
 	/**
+	 * Whether the current request is a single entry (post or page).
+	 *
+	 * A static front page is a page, but it represents the site and
+	 * should get the site feed, not an entry feed.
+	 *
+	 * @return bool
+	 */
+	public static function is_entry() {
+		return is_singular() && ! is_front_page();
+	}
+
+	/**
 	 * Echos autodiscovery links
 	 */
 	public static function add_html_header() {
-		if ( is_singular() ) {
+		if ( self::is_entry() ) {
 			$links = array(
 				array( 'mf2', get_post_comments_feed_link( null, 'mf2' ) ),
 				array( 'jf2', get_post_comments_feed_link( null, 'jf2' ) ),

@@ -93,6 +93,11 @@ Project actively developed on Github at [indieweb/wordpress-mf2-feed](https://gi
 * Fixed post names being replaced by their IDs
 * Fixed missing site icon in the JF2 feed
 * Removed the `get_self_link()` shim, requires WordPress 5.3 now
+* Fixed the feed links on a static front page, they pointed to the page entry instead of the site feed (#19)
+* Feed links are only added on the home page, the front page and single entries, not on archives (#16)
+* Added `Mf2_Feed_Entry::from_post()`, entries are only built for valid posts (#10)
+* Added the `mf2_*` post meta (Micropub, Post Kinds) to the entries, with a `mf2_feed_meta_properties` filter (#3)
+* Updated the dev dependencies and added a `composer lint` script
 
 ### 3.1.1
 

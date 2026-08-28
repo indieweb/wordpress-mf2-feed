@@ -6,6 +6,9 @@
  *
  * Based on the work of @dshankse: https://github.com/dshanske/indieweb-post-kinds/blob/master/includes/class-mf2-post.php
  */
+
+defined( 'ABSPATH' ) || exit;
+
 class Mf2_Feed_Entry {
 	public $_id;
 	public $type;
@@ -31,15 +34,15 @@ class Mf2_Feed_Entry {
 		$this->type = 'entry';
 		$this->name = get_the_title( $post );
 		// Eliminate IDs as names
-		if ( $this->name = $this->_id ) {
+		if ( (string) $this->_id === (string) $this->name ) {
 			$this->name = null;
 		}
 		$this->published = get_post_time( DATE_W3C, false, $post );
 		$this->updated   = get_post_modified_time( DATE_W3C, false, $post );
 		$content         = get_the_content( null, false, $post );
 		if ( ! empty( $content ) ) {
-			$this->content['html']  = get_the_content( null, false, $post );
-			$this->content['value'] = wp_strip_all_tags( $this->content['html'] );
+			$this->content['html']  = $content;
+			$this->content['value'] = wp_strip_all_tags( $content );
 		}
 		$this->summary = get_the_excerpt( $post );
 		$this->url     = get_permalink( $post );
@@ -101,7 +104,7 @@ class Mf2_Feed_Entry {
 	}
 
 	public function jf2_to_mf2( $entry ) {
-		if ( ! $entry || ! is_array( $entry ) | isset( $entry['properties'] ) ) {
+		if ( ! $entry || ! is_array( $entry ) || isset( $entry['properties'] ) ) {
 			return $entry;
 		}
 

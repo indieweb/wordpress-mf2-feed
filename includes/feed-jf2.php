@@ -4,9 +4,10 @@
  *
  * @package MF2 Feed
  */
-header( 'Content-Type: ' . feed_content_type( 'jf2feed' ), true );
 
-require_once dirname( __FILE__ ) . '/class-mf2-feed-entry.php';
+defined( 'ABSPATH' ) || exit;
+
+header( 'Content-Type: ' . feed_content_type( 'jf2feed' ), true );
 
 $items = array(
 	'type'    => 'feed',
@@ -14,6 +15,8 @@ $items = array(
 	'summary' => get_bloginfo( 'description' ),
 	'url'     => get_self_link(),
 );
+
+$featured = get_site_icon_url();
 if ( ! empty( $featured ) ) {
 	$items['featured'] = $featured;
 }
@@ -26,4 +29,4 @@ while ( have_posts() ) {
 
 // filter output
 $items = apply_filters( 'jf2_feed_array', $items );
-echo Mf2Feed::encode_json( $items );
+echo Mf2_Feed::encode_json( $items, 'jf2' );

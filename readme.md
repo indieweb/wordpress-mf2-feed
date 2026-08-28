@@ -2,9 +2,9 @@
 - Contributors: pfefferle, dshanske, indieweb
 - Donate link: https://opencollective.com/indieweb
 - Tags: microformats, mf2, jf2, rel-alternate, indieweb
-- Requires at least: 5.2
+- Requires at least: 5.3
 - Tested up to: 7.1
-- Stable tag: 3.1.1
+- Stable tag: 3.2.0
 - Requires PHP: 7.4
 - License: MIT
 - License URI: http://opensource.org/licenses/MIT
@@ -13,72 +13,86 @@ Add Microformats2 Feeds for WordPress
 
 ## Description
 
-Provides a [Microformats2 JSON](http://microformats.org/wiki/microformats2-parsing) "Feed" for every WordPress URL, and helps to allow other sites to get pre-parsed [Microformats-JSON](https://indieweb.org/jf2) even if the theme
-does not support Microformats2.
+MF2 Feed adds a machine readable version of your posts, in the same way WordPress already offers RSS feeds. Other sites and services (readers, Webmention endpoints, IndieWeb tools) can read your content as structured data, no matter which theme you use.
 
-[Microformats2](https://indieweb.org/microformats) are a key [building-block](https://indieweb.org/Category:building-blocks) of the IndieWeb, but it is very hard (if not impossible) to get Microformats2 as a core feature for all WordPress themes. There are several themes that are supporting Microformats2, but everyone should choose his prefered theme and should not be limited to use one of the [few community themes](https://indieweb.org/WordPress/Themes). After [a lot of discussions](https://github.com/indieweb/wordpress-uf2/issues/30) and some different plugin approaches, we are trying to provide an alternate ([`rel=altenate`](https://indieweb.org/rel-alternate)) representation of the microformatted HTML.
+Just install and activate the plugin. There are no settings.
 
-The plugin is inspired by the URL design of [p3k](https://github.com/aaronpk/p3k) of [@aaronpk](https://github.com/aaronpk).
+After activation every URL of your site gets two additional feeds:
 
-p3k Example:
+* **Microformats2 JSON** (`/feed/mf2/`): the raw [Microformats2](https://indieweb.org/microformats) data, the same format a Microformats parser would produce.
+* **JF2** (`/feed/jf2/`): a simplified version of the same data, easier to read and to work with. See the [JF2 spec](https://jf2.spec.indieweb.org/).
 
-* Original: <https://aaronparecki.com/2018/07/30/18/xray-updates>
-* Microformats2 JSON: <https://aaronparecki.com/2018/07/30/18/xray-updates.json>
-* JF2: <https://aaronparecki.com/2018/07/30/18/xray-updates.jf2>
+### Examples
 
-WordPress Example:
+* Your site: `https://example.com/` → `https://example.com/feed/mf2/` and `https://example.com/feed/jf2/`
+* A single post: `https://example.com/2024/01/my-post/` → `https://example.com/2024/01/my-post/feed/mf2/` and `https://example.com/2024/01/my-post/feed/jf2/` (the comments of the post are included)
 
-* Original: <https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/>
-* Microformats2 JSON: <https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/feed/mf2>
-* JF2: <https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/feed/jf2>
+A live example: <https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/> and the matching [mf2](https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/feed/mf2) and [jf2](https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/feed/jf2) feeds.
+
+The plugin also adds `rel="alternate"` links to the `<head>` of every page, so tools can discover the feeds on their own. And it supports content negotiation: a client that requests a post with the `Accept: application/mf2+json` (or `application/jf2+json`) header gets the JSON directly instead of the HTML.
+
+### Why?
+
+[Microformats2](https://indieweb.org/microformats) are a key [building block](https://indieweb.org/Category:building-blocks) of the IndieWeb. But it is very hard (if not impossible) to get them into all WordPress themes. There are a [few community themes](https://indieweb.org/WordPress/Themes) that support Microformats2, but you should be able to use the theme you like. After [a lot of discussions](https://github.com/indieweb/wordpress-uf2/issues/30) and some different plugin approaches, this plugin provides an alternate ([`rel="alternate"`](https://indieweb.org/rel-alternate)) representation instead of changing the HTML of your theme.
+
+The URL design is inspired by [p3k](https://github.com/aaronpk/p3k) of [@aaronpk](https://github.com/aaronpk).
 
 ## FAQ
 
-### What are Microformats 2?
+### What are Microformats2?
 
-Microformats are a simple way to markup structured information in HTML using classes. WordPress incorporates some classic Microformats. Microformats 2 supersedes classic microformats.
+Microformats are a simple way to mark up structured information in HTML using classes. WordPress uses some classic Microformats out of the box. Microformats2 supersedes the classic ones. You can read more on [microformats.org](http://microformats.org/wiki/microformats2).
+
+### What is JF2?
+
+[JF2](https://jf2.spec.indieweb.org/) is a simpler JSON format based on Microformats2. It is easier to consume in code, so most tools prefer it.
+
+### Do I need a special theme?
+
+No. The feeds are generated from the post data, not from the HTML of your theme. That is the whole point of the plugin.
+
+### Are there any settings?
+
+No. Install, activate, done.
+
+### The feed URLs return a 404
+
+The plugin registers new rewrite rules on activation. If the URLs do not work, go to *Settings > Permalinks* and click *Save Changes* once. This flushes the rewrite rules.
+
+### Can I change the feed output?
+
+Yes, for developers there are a few filters: `mf2_feed_array` and `jf2_feed_array` for the whole feed, `mf2_entry_array` and `jf2_entry_array` for a single entry, and `mf2_feed_content_type` / `jf2_feed_content_type` for the content type.
+
+### Where can I get help?
+
+The plugin is developed on GitHub at [indieweb/wordpress-mf2-feed](https://github.com/indieweb/wordpress-mf2-feed). Please file support issues there.
 
 ## Installation
 
-Follow the normal instructions for [installing WordPress plugins](https://codex.wordpress.org/Managing_Plugins#Installing_Plugins).
+### From the plugin directory
 
-### Automatic Plugin Installation
+1. Go to *Plugins > Add New* in your WordPress admin.
+1. Search for "`mf2-feed`".
+1. Click **Install Now** and then **Activate**.
 
-To add a WordPress Plugin using the [built-in plugin installer](https://codex.wordpress.org/Administration_Screens#Add_New_Plugins):
+### Manual installation
 
-1. Go to [Plugins](https://codex.wordpress.org/Administration_Screens#Plugins) > [Add New](https://codex.wordpress.org/Plugins_Add_New_Screen).
-1. Type "`mf2-feed`" into the **Search Plugins** box.
-1. Find the WordPress Plugin you wish to install.
-    1. Click **Details** for more information about the Plugin and instructions you may wish to print or save to help setup the Plugin.
-    1. Click **Install Now** to install the WordPress Plugin.
-1. The resulting installation screen will list the installation as successful or note any problems during the install.
-1. If successful, click **Activate Plugin** to activate it, or **Return to Plugin Installer** for further actions.
-
-### Manual Plugin Installation
-
-There are a few cases when manually installing a WordPress Plugin is appropriate.
-
-* If you wish to control the placement and the process of installing a WordPress Plugin.
-* If your server does not permit automatic installation of a WordPress Plugin.
-* If you want to try the [latest development version](https://github.com/indieweb/wordpress-mf2-feed).
-
-Installation of a WordPress Plugin manually requires FTP familiarity and the awareness that you may put your site at risk if you install a WordPress Plugin incompatible with the current version or from an unreliable source.
-
-Backup your site completely before proceeding.
-
-To install a WordPress Plugin manually:
-
-* Download your WordPress Plugin to your desktop.
-    * Download from [the WordPress directory](https://wordpress.org/plugins/mf2-feed/)
-    * Download from [GitHub](https://github.com/indieweb/wordpress-mf2-feed/releases)
-* If downloaded as a zip archive, extract the Plugin folder to your desktop.
-* With your FTP program, upload the Plugin folder to the `wp-content/plugins` folder in your WordPress directory online.
-* Go to [Plugins screen](https://codex.wordpress.org/Administration_Screens#Plugins) and find the newly uploaded Plugin in the list.
-* Click **Activate** to activate it.
+1. Download the plugin from [the WordPress directory](https://wordpress.org/plugins/mf2-feed/) or from [GitHub](https://github.com/indieweb/wordpress-mf2-feed/releases).
+1. Upload the `mf2-feed` folder to `wp-content/plugins/` on your server.
+1. Go to *Plugins* and click **Activate**.
 
 ## Changelog
 
 Project actively developed on Github at [indieweb/wordpress-mf2-feed](https://github.com/indieweb/wordpress-mf2-feed). Please file support issues there.
+
+### 3.2.0
+
+* Moved the main class to `includes/` and renamed it to `Mf2_Feed` (`Mf2Feed` still works as alias)
+* Added `MF2_FEED_*` constants
+* Fixed the `mf2_feed_options`/`jf2_feed_options` filters, they never fired
+* Fixed post names being replaced by their IDs
+* Fixed missing site icon in the JF2 feed
+* Removed the `get_self_link()` shim, requires WordPress 5.3 now
 
 ### 3.1.1
 

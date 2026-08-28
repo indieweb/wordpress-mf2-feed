@@ -154,11 +154,15 @@ class Mf2_Feed {
 				array( 'mf2', get_post_comments_feed_link( null, 'mf2' ) ),
 				array( 'jf2', get_post_comments_feed_link( null, 'jf2' ) ),
 			);
-		} else {
+		} elseif ( is_home() || is_front_page() ) {
 			$links = array(
 				array( 'mf2', get_feed_link( 'mf2' ) ),
 				array( 'jf2feed', get_feed_link( 'jf2' ) ),
 			);
+		} else {
+			// Archives, search etc. would advertise the unfiltered site feed,
+			// which is wrong for filtered views like `/kind/article/`.
+			return;
 		}
 
 		foreach ( $links as list( $type, $href ) ) {

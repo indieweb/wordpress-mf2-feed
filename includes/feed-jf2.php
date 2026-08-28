@@ -6,7 +6,7 @@
  */
 header( 'Content-Type: ' . feed_content_type( 'jf2feed' ), true );
 
-require_once dirname( __FILE__ ) . '/class-mf2-feed-entry.php';
+require_once MF2_FEED_PLUGIN_DIR . 'includes/class-mf2-feed-entry.php';
 
 $items = array(
 	'type'    => 'feed',
@@ -26,4 +26,4 @@ while ( have_posts() ) {
 
 // filter output
 $items = apply_filters( 'jf2_feed_array', $items );
-echo Mf2Feed::encode_json( $items );
+echo Mf2_Feed::encode_json( $items );

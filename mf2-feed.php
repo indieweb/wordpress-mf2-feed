@@ -18,10 +18,14 @@
 
 \define( 'MF2_FEED_PLUGIN_DIR', \plugin_dir_path( __FILE__ ) );
 \define( 'MF2_FEED_PLUGIN_BASENAME', \plugin_basename( __FILE__ ) );
-\define( 'MF2_FEED_PLUGIN_FILE', \plugin_dir_path( __FILE__ ) . '/' . \basename( __FILE__ ) );
+\define( 'MF2_FEED_PLUGIN_FILE', __FILE__ );
 \define( 'MF2_FEED_PLUGIN_URL', \plugin_dir_url( __FILE__ ) );
 
 require_once MF2_FEED_PLUGIN_DIR . 'includes/class-mf2-feed.php';
+require_once MF2_FEED_PLUGIN_DIR . 'includes/class-mf2-feed-entry.php';
+
+// Backcompat for the old class name.
+\class_alias( 'Mf2_Feed', 'Mf2Feed' );
 
 add_action( 'init', array( 'Mf2_Feed', 'init' ) );
 

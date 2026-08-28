@@ -4,9 +4,9 @@
  *
  * @package MF2 Feed
  */
-header( 'Content-Type: ' . feed_content_type( 'jf2feed' ), true );
 
-require_once MF2_FEED_PLUGIN_DIR . 'includes/class-mf2-feed-entry.php';
+defined( 'ABSPATH' ) || exit;
+header( 'Content-Type: ' . feed_content_type( 'jf2feed' ), true );
 
 $items = array(
 	'type'    => 'feed',

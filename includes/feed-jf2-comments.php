@@ -5,9 +5,10 @@
  * @package MF2 Feed
  */
 
+defined( 'ABSPATH' ) || exit;
+
 header( 'Content-Type: ' . feed_content_type( 'jf2' ), true );
 
-require_once MF2_FEED_PLUGIN_DIR . 'includes/class-mf2-feed-entry.php';
 $items = array();
 $p     = get_post();
 if ( $p ) {

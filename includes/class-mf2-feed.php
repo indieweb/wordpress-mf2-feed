@@ -13,9 +13,6 @@ class Mf2_Feed {
 	 */
 	public static function init() {
 		self::setup_feeds();
-		// add 'json' as feed
-		add_action( 'do_feed_mf2', array( __CLASS__, 'do_feed_mf2' ), 10, 1 );
-		add_action( 'do_feed_jf2', array( __CLASS__, 'do_feed_jf2' ), 10, 1 );
 
 		add_action( 'wp_head', array( __CLASS__, 'add_html_header' ), 5 );
 		add_filter( 'feed_content_type', array( __CLASS__, 'feed_content_type' ), 10, 2 );
@@ -45,7 +42,7 @@ class Mf2_Feed {
 	 * @param bool $for_comments true if it is a comment-feed
 	 */
 	public static function do_feed_mf2( $for_comments ) {
-		self::load_feed_template( 'mf2', $for_comments );
+		load_template( self::get_feed_template( 'mf2', $for_comments ) );
 	}
 
 	/**
@@ -54,17 +51,7 @@ class Mf2_Feed {
 	 * @param bool $for_comments true if it is a comment-feed
 	 */
 	public static function do_feed_jf2( $for_comments ) {
-		self::load_feed_template( 'jf2', $for_comments );
-	}
-
-	/**
-	 * Loads the feed template for a format
-	 *
-	 * @param string $format       "mf2" or "jf2"
-	 * @param bool   $for_comments true if it is a comment-feed
-	 */
-	public static function load_feed_template( $format, $for_comments = false ) {
-		load_template( self::get_feed_template( $format, $for_comments ) );
+		load_template( self::get_feed_template( 'jf2', $for_comments ) );
 	}
 
 	/**

@@ -1,6 +1,6 @@
 {
 	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
-	"landingPage": "/feed/jf2/",
+	"landingPage": "/wp-admin/edit.php",
 	"preferredVersions": {
 		"php": "8.2",
 		"wp": "latest"
@@ -35,7 +35,7 @@
 		{
 			"step": "writeFile",
 			"path": "/wordpress/wp-content/mu-plugins/show-admin-notice.php",
-			"data": "<?php\nadd_action(\n'admin_notices',\nfunction() {\n$dismissed = get_user_option( 'dismissed_mf2-feed_blueprint_notice', get_current_user_id() );\nif ( $dismissed ) {\nreturn;\n}\necho '<div class=\"notice notice-info is-dismissible\" id=\"mf2-feed-admin-notice\"><p>' . esc_html( 'Welcome to MF2 Feeds! Your site now offers microformats2 JSON feeds at /feed/mf2/ and /feed/jf2/. 👋' ) . '</p></div>';\n}\n);\nadd_action('wp_ajax_dismiss_mf2-feed-admin-notice', function() {\ncheck_ajax_referer('mf2-feed-admin-notice', 'nonce');\n$user_id = get_current_user_id();\nif ( $user_id ) {\nupdate_user_option($user_id, 'dismissed_mf2-feed_blueprint_notice', 1, false);\nwp_send_json_success();\n} else {\nwp_send_json_error('User not found');\n}\n} );\nadd_action('admin_footer', function() {\n?>\n<script type=\"text/javascript\">\njQuery(document).ready( function($) {\nvar ajaxurl = '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>';\nvar nonce = '<?php echo esc_js( wp_create_nonce( 'mf2-feed-admin-notice' ) ); ?>';\n$( '#mf2-feed-admin-notice' ).on( 'click', '.notice-dismiss', function() {\n$.ajax({\nurl: ajaxurl,\ntype: 'POST',\ndata: {\naction: 'dismiss_mf2-feed-admin-notice',\nnonce: nonce\n}\n});\n});\n});\n</script>\n<?php\n} );"
+			"data": "<?php\nadd_action(\n'admin_notices',\nfunction() {\n$dismissed = get_user_option( 'dismissed_mf2-feed_blueprint_notice', get_current_user_id() );\nif ( $dismissed ) {\nreturn;\n}\necho '<div class=\"notice notice-info is-dismissible\" id=\"mf2-feed-admin-notice\"><p>' . sprintf(\n'Welcome to MF2 Feeds! 👋 The plugin adds two JSON feeds for the posts below, one in <a href=\"%1$s\">microformats2 JSON</a> and one in <a href=\"%2$s\">jf2</a>. Readers and other IndieWeb tools can use them instead of parsing your HTML. (In this demo the feeds are served as plain text, so your browser shows them instead of downloading them.)',\nesc_url( get_feed_link( 'mf2' ) ),\nesc_url( get_feed_link( 'jf2' ) )\n) . '</p></div>';\n}\n);\nadd_action('wp_ajax_dismiss_mf2-feed-admin-notice', function() {\ncheck_ajax_referer('mf2-feed-admin-notice', 'nonce');\n$user_id = get_current_user_id();\nif ( $user_id ) {\nupdate_user_option($user_id, 'dismissed_mf2-feed_blueprint_notice', 1, false);\nwp_send_json_success();\n} else {\nwp_send_json_error('User not found');\n}\n} );\nadd_action('admin_footer', function() {\n?>\n<script type=\"text/javascript\">\njQuery(document).ready( function($) {\nvar ajaxurl = '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>';\nvar nonce = '<?php echo esc_js( wp_create_nonce( 'mf2-feed-admin-notice' ) ); ?>';\n$( '#mf2-feed-admin-notice' ).on( 'click', '.notice-dismiss', function() {\n$.ajax({\nurl: ajaxurl,\ntype: 'POST',\ndata: {\naction: 'dismiss_mf2-feed-admin-notice',\nnonce: nonce\n}\n});\n});\n});\n</script>\n<?php\n} );"
 		},
 		{
 			"step": "writeFile",

@@ -144,7 +144,7 @@ class Mf2_Feed {
 			case 'jf2feed':
 				return apply_filters( 'jf2_feed_content_type', 'application/jf2feed+json' );
 			case 'mf2-html':
-				return apply_filters( 'mf2_html_feed_content_type', 'text/html' );
+				return apply_filters( 'mf2_html_feed_content_type', 'text/mf2+html' );
 			default:
 				return $content_type;
 		}

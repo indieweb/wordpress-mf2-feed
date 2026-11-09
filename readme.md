@@ -22,10 +22,14 @@ After activation every URL of your site gets two additional feeds:
 * **Microformats2 JSON** (`/feed/mf2/`): the raw [Microformats2](https://indieweb.org/microformats) data, the same format a Microformats parser would produce.
 * **JF2** (`/feed/jf2/`): a simplified version of the same data, easier to read and to work with. See the [JF2 spec](https://jf2.spec.indieweb.org/).
 
+Single posts and pages additionally get:
+
+* **Microformats2 HTML** (`/feed/mf2-html/`): the entry as a minimal HTML page with Microformats2 markup, independent of the theme. Readable in every browser and parseable by every Microformats parser.
+
 ### Examples
 
 * Your site: `https://example.com/` → `https://example.com/feed/mf2/` and `https://example.com/feed/jf2/`
-* A single post: `https://example.com/2024/01/my-post/` → `https://example.com/2024/01/my-post/feed/mf2/` and `https://example.com/2024/01/my-post/feed/jf2/` (the comments of the post are included)
+* A single post: `https://example.com/2024/01/my-post/` → `https://example.com/2024/01/my-post/feed/mf2/` and `https://example.com/2024/01/my-post/feed/jf2/` and `https://example.com/2024/01/my-post/feed/mf2-html/` (the comments of the post are included)
 
 A live example: <https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/> and the matching [mf2](https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/feed/mf2) and [jf2](https://notiz.blog/2013/06/18/the-rise-of-the-indieweb/feed/jf2) feeds.
 
@@ -61,7 +65,7 @@ The plugin registers new rewrite rules on activation. If the URLs do not work, g
 
 ### Can I change the feed output?
 
-Yes, for developers there are a few filters: `mf2_feed_array` and `jf2_feed_array` for the whole feed, `mf2_entry_array` and `jf2_entry_array` for a single entry, and `mf2_feed_content_type` / `jf2_feed_content_type` for the content type.
+Yes, for developers there are a few filters: `mf2_feed_array` and `jf2_feed_array` for the whole feed, `mf2_entry_array` and `jf2_entry_array` for a single entry, and `mf2_feed_content_type` / `jf2_feed_content_type` / `mf2_html_feed_content_type` for the content type.
 
 ### Where can I get help?
 

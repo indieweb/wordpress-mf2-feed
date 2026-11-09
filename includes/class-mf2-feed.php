@@ -34,6 +34,7 @@ class Mf2_Feed {
 	public static function setup_feeds() {
 		add_feed( 'mf2', array( __CLASS__, 'do_feed_mf2' ) );
 		add_feed( 'jf2', array( __CLASS__, 'do_feed_jf2' ) );
+		add_feed( 'mf2-html', array( __CLASS__, 'do_feed_mf2_html' ) );
 	}
 
 	/**
@@ -52,6 +53,20 @@ class Mf2_Feed {
 	 */
 	public static function do_feed_jf2( $for_comments ) {
 		load_template( self::get_feed_template( 'jf2', $for_comments ) );
+	}
+
+	/**
+	 * Renders an MF2 HTML feed
+	 *
+	 * Only single entries for now, there is no site feed yet.
+	 *
+	 */
+	public static function do_feed_mf2_html() {
+		if ( ! self::is_entry() ) {
+			wp_die( esc_html__( 'This feed is only available for single entries.', 'mf2-feed' ), '', array( 'response' => 404 ) );
+		}
+
+		load_template( self::get_feed_template( 'mf2-html', true ) );
 	}
 
 	/**
@@ -128,6 +143,8 @@ class Mf2_Feed {
 				return apply_filters( 'jf2_feed_content_type', 'application/jf2+json' );
 			case 'jf2feed':
 				return apply_filters( 'jf2_feed_content_type', 'application/jf2feed+json' );
+			case 'mf2-html':
+				return apply_filters( 'mf2_html_feed_content_type', 'text/html' );
 			default:
 				return $content_type;
 		}
@@ -153,6 +170,7 @@ class Mf2_Feed {
 			$links = array(
 				array( 'mf2', get_post_comments_feed_link( null, 'mf2' ) ),
 				array( 'jf2', get_post_comments_feed_link( null, 'jf2' ) ),
+				array( 'mf2-html', get_post_comments_feed_link( null, 'mf2-html' ) ),
 			);
 		} elseif ( is_home() || is_front_page() ) {
 			$links = array(
